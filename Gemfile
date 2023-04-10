@@ -71,6 +71,10 @@ group :test do
   gem "webdrivers"
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+end
+
 gem 'dotenv-rails', groups: %i[development test]
 
 gem "tailwindcss-rails", "~> 2.0"
