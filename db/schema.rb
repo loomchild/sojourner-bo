@@ -45,14 +45,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_161633) do
   end
 
   create_table "favourites", force: :cascade do |t|
-    t.string "conference_id", null: false
-    t.string "user_id", null: false
+    t.bigint "conference_user_id", null: false
     t.string "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["conference_id"], name: "index_favourites_on_conference_id"
+    t.index ["conference_user_id"], name: "index_favourites_on_conference_user_id"
     t.index ["event_id"], name: "index_favourites_on_event_id"
-    t.index ["user_id"], name: "index_favourites_on_user_id"
   end
 
   create_table "speakers", force: :cascade do |t|
@@ -79,9 +77,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_161633) do
   add_foreign_key "event_speakers", "speakers"
   add_foreign_key "events", "conferences"
   add_foreign_key "events", "tracks"
-  add_foreign_key "favourites", "conferences"
+  add_foreign_key "favourites", "conference_users"
   add_foreign_key "favourites", "events"
-  add_foreign_key "favourites", "users"
   add_foreign_key "speakers", "conferences"
   add_foreign_key "tracks", "conferences"
 end
