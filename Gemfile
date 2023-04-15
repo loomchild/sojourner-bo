@@ -80,3 +80,5 @@ gem 'dotenv-rails', groups: %i[development test]
 gem "tailwindcss-rails", "~> 2.0"
 
 gem "google-cloud-firestore", "~> 2.6"
+
+gem "active_hash", "~> 3.1"
