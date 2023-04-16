@@ -82,3 +82,5 @@ gem "tailwindcss-rails", "~> 2.0"
 gem "google-cloud-firestore", "~> 2.6"
 
 gem "active_hash", "~> 3.1"
+
+gem "heroicon", "~> 1.0"
