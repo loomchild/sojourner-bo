@@ -9,6 +9,16 @@
           </div>
         </div>
       </div>
+
+      <div>
+        <span class="mr-2 text-gray-300">Conference</span>
+        <%= render "dropdown", title: "FOSDEM 2023" do %>
+          <%= dropdown_link "FOSDEM 2023" %>
+          <%= dropdown_link "FOSDEM 2022" %>
+          <%= dropdown_link "FOSDEM 2021" %>
+          <%= dropdown_link "FOSDEM 2020" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </nav>
