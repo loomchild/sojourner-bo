@@ -1,4 +1,8 @@
 class EventType < ActiveHash::Base
+  include ActiveHash::Associations
+
+  has_many :events
+
   self.data = [
     { id: 'keynote', name: 'Keynote' },
     { id: 'maintrack', name: 'Main track' },

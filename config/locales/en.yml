@@ -31,3 +31,13 @@
 
 en:
   hello: "Hello world"
+
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No %{entry_name} found"
+          one: "Showing <b>1</b> %{entry_name}"
+          other: "Showing all <b>%{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Showing <b>%{first}</b> to <b>%{last}</b> of <b>%{total}</b> %{entry_name}"

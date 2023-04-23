@@ -6,3 +6,6 @@ Style/StringLiterals:
 
 Style/Documentation:
   Enabled: false
+
+Style/SymbolArray:
+  Enabled: false

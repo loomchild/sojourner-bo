@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
-  root 'dashboard#index'
-  get 'events', to: 'events#index'
+  root 'root#index'
+
+  resources :conferences, param: :conference_id, only: [:show] do
+    member do
+      get 'events'
+    end
+  end
 end

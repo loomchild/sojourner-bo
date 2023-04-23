@@ -1,0 +1,48 @@
+<% content_for :title, "Events" %>
+
+<%= turbo_frame_tag "events" do %>
+  <ul role="list" class="divide-y divide-gray-100">
+
+    <% @events.each do |event| %>
+      <li class="flex justify-between gap-x-6 py-5">
+        <div class="flex gap-x-4">
+          <div class="min-w-0 flex-auto">
+            <p class="text-md font-semibold leading-6 text-gray-900">
+              <%= event.title %>
+            </p>
+            <p class="mt-1 text-sm leading-5 text-gray-500">
+              <%= event.subtitle %>
+              &nbsp;
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col items-end">
+          <p class="text-sm leading-6 text-gray-900 whitespace-nowrap">
+            <%= event.favourites.size %>
+            users
+          </p>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="flex flex-1 items-center justify-between">
+    <div>
+      <p class="text-md text-gray-700">
+        <%= page_entries_info @events %>
+      </p>
+    </div>
+
+    <div>
+      <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+       <%= link_to path_to_prev_page(@events), class: "relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" do %>
+          <%= heroicon "chevron-left", variant: :mini %>
+        <% end %>
+
+        <%= link_to path_to_next_page(@events), class: "relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" do %>
+          <%= heroicon "chevron-right", variant: :mini %>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+<% end %>

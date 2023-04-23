@@ -1,0 +1,23 @@
+<% content_for :navbar do %>
+  <div class="flex items-center">
+    <div>
+      <div class="flex items-baseline space-x-4">
+        <%= navbar_link "Dashboard", @conference %>
+        <%= navbar_link "Events", events_conference_path(@conference) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-baseline">
+    <div class="mr-4 text-gray-300">Conference</div>
+    <div class="w-40">
+      <%= render "dropdown", title: @conference.name do %>
+        <% @conferences.each do |conference| %>
+          <%= dropdown_link conference.name, conference %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%= render template: "layouts/application" %>

@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :conferece_users
-  has_many :conferences, through: :conferece_users
+  has_many :conference_users
+  has_many :conferences, through: :conference_users
   has_many :favourites
 end

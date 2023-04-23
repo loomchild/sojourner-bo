@@ -77,10 +77,14 @@ end
 
 gem 'dotenv-rails', groups: %i[development test]
 
+gem "active_hash", "~> 3.1"
+
 gem "tailwindcss-rails", "~> 2.0"
+
+gem "heroicon", "~> 1.0"
 
 gem "google-cloud-firestore", "~> 2.6"
 
-gem "active_hash", "~> 3.1"
+gem "google-cloud-storage", "~> 1.44"
 
-gem "heroicon", "~> 1.0"
+gem 'kaminari'

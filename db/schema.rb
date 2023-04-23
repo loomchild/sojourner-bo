@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_15_161633) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_182503) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_161633) do
     t.string "title"
     t.string "abstract"
     t.string "description"
+    t.string "type_id"
+    t.string "subtitle"
     t.index ["conference_id"], name: "index_events_on_conference_id"
     t.index ["track_id"], name: "index_events_on_track_id"
   end
@@ -56,12 +58,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_161633) do
   create_table "speakers", force: :cascade do |t|
     t.string "conference_id", null: false
     t.string "name"
+    t.index ["conference_id", "name"], name: "index_speakers_on_conference_id_and_name", unique: true
     t.index ["conference_id"], name: "index_speakers_on_conference_id"
   end
 
   create_table "tracks", force: :cascade do |t|
     t.string "conference_id", null: false
     t.string "name"
+    t.index ["conference_id", "name"], name: "index_tracks_on_conference_id_and_name", unique: true
     t.index ["conference_id"], name: "index_tracks_on_conference_id"
   end
 
