@@ -1,6 +1,4 @@
 class ConferencesController < ApplicationController
-  layout 'page'
-
   before_action :set_conferences
   before_action :set_conference, only: [:show, :events]
 
