@@ -8,3 +8,5 @@ import './components'
 
 window.Alpine = Alpine
 Alpine.start()
+
+Turbo.setProgressBarDelay(100)
