@@ -1,0 +1,15 @@
+<ul role="list" class="divide-y divide-gray-100">
+  <%= render partial: 'event', collection: events %>
+</ul>
+
+<div class="flex flex-1 items-center justify-between">
+  <div>
+    <p class="text-md text-gray-700">
+      <%= page_entries_info events %>
+    </p>
+  </div>
+
+  <div>
+    <%= render 'paging_nav' %>
+  </div>
+</div>

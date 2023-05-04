@@ -14,7 +14,10 @@ class ConferencesController < ApplicationController
       @events = @events.where('content ILIKE ?', "%#{keyword}%")
     end
 
-    @events
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   private
