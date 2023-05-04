@@ -7,6 +7,14 @@ class ConferencesController < ApplicationController
 
   def events
     @events = @conference.events.popular.page(params[:page]).per(10)
+
+    @query = params[:query]
+    keywords = @query&.split
+    keywords&.each do |keyword|
+      @events = @events.where('content ILIKE ?', "%#{keyword}%")
+    end
+
+    @events
   end
 
   private
