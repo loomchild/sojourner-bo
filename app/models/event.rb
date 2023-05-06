@@ -9,5 +9,5 @@ class Event < ApplicationRecord
   has_many :conference_users, through: :favourites
   has_many :users, through: :conference_users
 
-  scope :popular, -> { includes(:favourites).left_joins(:favourites).group(:id).order('COUNT(favourites.id) DESC').order(:title) }
+  scope :popular, -> { order(favourites_count: :desc).order(:title) }
 end
