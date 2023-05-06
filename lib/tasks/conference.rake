@@ -56,12 +56,12 @@ namespace :conference do
 
   desc "Populates all user data"
   task :create_users, [:id] => [:environment] do |_task, args|
-    def create_user(id)
-      User.find_by(id:) || User.create!(id:)
+    def create_user(id, created_at)
+      User.find_by(id:) || User.create!(id:, created_at:)
     end
 
-    def create_conference_user(conference, id)
-      user = create_user(id)
+    def create_conference_user(conference, id, created_at)
+      user = create_user(id, created_at)
       conference.conference_users.create(user:)
     end
 
@@ -71,19 +71,19 @@ namespace :conference do
       puts "Skipping favourite for event #{event_id}. #{error}."
     end
 
-    def create_conference_user_with_favourites(conference, id, event_ids)
+    def create_conference_user_with_favourites(conference, id, data)
       # Filter only active users.
       # TODO: move this to service or rethink completely using counters.
       # return if event_ids.size < 5
 
-      conference_user = create_conference_user(conference, id)
-      event_ids.each { |event_id| create_favourite(conference_user, event_id) }
+      conference_user = create_conference_user(conference, id, data[:created_at])
+      data[:favourites].each { |event_id| create_favourite(conference_user, event_id) }
     end
 
     conference = Conference.find_by!(id: args.id)
 
-    favourites = FirebaseFirestoreService.new.favourites(conference)
-    favourites.each { |key, value| create_conference_user_with_favourites(conference, key, value) }
+    users = FirebaseFirestoreService.new.users(conference)
+    users.each { |id, value| create_conference_user_with_favourites(conference, id, value) }
   end
 
   desc "Resets all user data"

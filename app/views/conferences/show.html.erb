@@ -1,7 +1,29 @@
 <% content_for :title, 'Dashboard' %>
 
-<p>
-  <%= @favourites %>
-</p>
+<div class="flex gap-6">
+  <div class="w-1/3">
+    <%= render 'tile' do %>
+      <h2 class="text-right">
+        <span class="text-4xl font-medium"><%= @user_count %></span> total users
+      </h2>
+    <% end %>
+  </div>
+
+  <div class="w-1/3">
+    <%= render 'tile' do %>
+      <h2 class="text-right">
+        <span class="text-4xl font-medium"><%= @active_user_count %></span> active users
+      </h2>
+    <% end %>
+  </div>
+
+  <div class="w-1/3">
+    <%= render 'tile' do %>
+      <h2 class="text-right">
+        <span class="text-4xl font-medium"><%= @favourite_count %></span> favourites
+      </h2>
+    <% end %>
+  </div>
+</div>
 
 

@@ -1,4 +1,4 @@
 class Favourite < ApplicationRecord
-  belongs_to :conference_user
-  belongs_to :event
+  belongs_to :conference_user, counter_cache: true
+  belongs_to :event, counter_cache: true
 end

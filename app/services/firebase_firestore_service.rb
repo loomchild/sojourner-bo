@@ -5,7 +5,7 @@ class FirebaseFirestoreService
     @client = Google::Cloud::Firestore.new
   end
 
-  def favourites(conference)
+  def users(conference)
     conference_id = conference.id.to_sym
     result = {}
 
@@ -14,7 +14,10 @@ class FirebaseFirestoreService
     query = collection.where(path, '!=', [])
     query.get do |user|
       favourites = user.data.dig(conference_id, :favourites)
-      result[user.document_id] = favourites
+      result[user.document_id] = {
+        created_at: user.created_at,
+        favourites:
+      }
     end
 
     result

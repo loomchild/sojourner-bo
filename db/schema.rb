@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_04_154747) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_06_164902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "conference_users", force: :cascade do |t|
     t.string "conference_id", null: false
     t.string "user_id", null: false
+    t.bigint "favourites_count"
     t.index ["conference_id"], name: "index_conference_users_on_conference_id"
     t.index ["user_id"], name: "index_conference_users_on_user_id"
   end
@@ -43,6 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_154747) do
     t.string "type_id"
     t.string "subtitle"
     t.virtual "content", type: :string, as: "(((((((COALESCE(title, ''::character varying))::text || ' '::text) || (COALESCE(subtitle, ''::character varying))::text) || ' '::text) || (COALESCE(abstract, ''::character varying))::text) || ' '::text) || (COALESCE(description, ''::character varying))::text)", stored: true
+    t.bigint "favourites_count"
     t.index ["conference_id"], name: "index_events_on_conference_id"
     t.index ["track_id"], name: "index_events_on_track_id"
   end

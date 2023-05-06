@@ -3,6 +3,9 @@ class ConferencesController < ApplicationController
   before_action :set_conference, only: [:show, :events]
 
   def show
+    @user_count = @conference.users.count
+    @active_user_count = @conference.users.active.count
+    @favourite_count = @conference.favourites.count
   end
 
   def events
