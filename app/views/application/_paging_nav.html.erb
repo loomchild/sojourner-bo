@@ -1,9 +1,9 @@
 <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-  <%= link_to path_to_prev_page(@events) || 'javascript:void(0)', class: "relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0", data: {'turbo-stream': true} do %>
+  <%= link_to path_to_prev_page(@events) || 'javascript:void(0)', class: "relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0", data: { 'turbo-action': 'advance' } do %>
     <%= heroicon "chevron-left", variant: :mini %>
   <% end %>
 
-  <%= link_to path_to_next_page(@events) || 'javascript:void(0)', class: "relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0", data: {'turbo-stream': true}, disabled: !@events.next_page do %>
+  <%= link_to path_to_next_page(@events) || 'javascript:void(0)', class: "relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0", data: { 'turbo-action': 'advance' }, disabled: !@events.next_page do %>
     <%= heroicon "chevron-right", variant: :mini %>
   <% end %>
 </nav>

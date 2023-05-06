@@ -3,19 +3,31 @@
 <% content_for :actions do %>
   <div class="flex gap-x-4">
     <div x-data>
-      <%= form_with(url: events_conference_path, method: :get, data: {'turbo-frame': 'events', 'turbo-stream': true}) do |form| %>
+      <%= form_with(url: events_conference_path, method: :get, data: {'turbo-frame': 'events', 'turbo-action': 'advance'}) do |form| %>
         <div class="relative rounded-md shadow-sm">
           <input type="text" name="query" class="block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Filter events" @input.debounce="$el.form.requestSubmit()" value="<%= @query %>">
         </div>
       <% end %>
     </div>
 
-    <%= turbo_frame_tag "paging" do %>
-      <%= render 'paging_nav' %>
-    <% end %>
+    <%= render 'paging_nav' %>
   </div>
 <% end %>
 
 <%= turbo_frame_tag "events" do %>
-  <%= render 'events', events: @events %>
+  <ul role="list" class="divide-y divide-gray-100">
+    <%= render partial: 'event', collection: @events %>
+  </ul>
+
+  <div class="flex flex-1 items-center justify-between">
+    <div>
+      <p class="text-md text-gray-700">
+        <%= page_entries_info @events %>
+      </p>
+    </div>
+
+    <div>
+      <%= render 'paging_nav' %>
+    </div>
+  </div>
 <% end %>
