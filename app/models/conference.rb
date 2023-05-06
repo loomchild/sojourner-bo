@@ -5,7 +5,7 @@ class Conference < ApplicationRecord
       merge(ConferenceUser.active)
     end
   end
-  has_many :favourites, through: :conference_users
+  has_many :favourites, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :tracks, dependent: :destroy
   has_many :speakers, dependent: :destroy

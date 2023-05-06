@@ -65,8 +65,8 @@ namespace :conference do
       conference.conference_users.create(user:)
     end
 
-    def create_favourite(conference_user, event_id)
-      conference_user.favourites.create!(event_id:)
+    def create_favourite(conference, conference_user, event_id)
+      conference_user.favourites.create!(conference:, event_id:)
     rescue => error
       puts "Skipping favourite for event #{event_id}. #{error}."
     end
@@ -77,7 +77,7 @@ namespace :conference do
       # return if event_ids.size < 5
 
       conference_user = create_conference_user(conference, id, data[:created_at])
-      data[:favourites].each { |event_id| create_favourite(conference_user, event_id) }
+      data[:favourites].each { |event_id| create_favourite(conference, conference_user, event_id) }
     end
 
     conference = Conference.find_by!(id: args.id)
