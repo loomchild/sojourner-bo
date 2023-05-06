@@ -13,8 +13,6 @@ class ConferencesController < ApplicationController
     keywords&.each do |keyword|
       @events = @events.where('content ILIKE ?', "%#{keyword}%")
     end
-
-    @events
   end
 
   private
