@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_06_164902) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_07_181016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,7 +45,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_164902) do
     t.string "subtitle"
     t.virtual "content", type: :string, as: "(((((((COALESCE(title, ''::character varying))::text || ' '::text) || (COALESCE(subtitle, ''::character varying))::text) || ' '::text) || (COALESCE(abstract, ''::character varying))::text) || ' '::text) || (COALESCE(description, ''::character varying))::text)", stored: true
     t.bigint "favourites_count", default: 0, null: false
+    t.virtual "content_searchable", type: :tsvector, as: "to_tsvector('english'::regconfig, (((((((COALESCE(title, ''::character varying))::text || ' '::text) || (COALESCE(subtitle, ''::character varying))::text) || ' '::text) || (COALESCE(abstract, ''::character varying))::text) || ' '::text) || (COALESCE(description, ''::character varying))::text))", stored: true
     t.index ["conference_id"], name: "index_events_on_conference_id"
+    t.index ["content_searchable"], name: "events_content_searchable_idx", using: :gin
     t.index ["track_id"], name: "index_events_on_track_id"
   end
 
