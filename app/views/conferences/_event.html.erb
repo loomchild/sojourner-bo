@@ -5,8 +5,13 @@
         <%= event.title %>
       </p>
       <p class="mt-1 text-sm leading-5 text-gray-500">
-        <%= event.subtitle %>
-        &nbsp;
+        <span class="font-semibold">
+          <%= event.speakers.map(&:name).join(', ') %>
+        </span>
+        <% if event.subtitle.present? %>
+          |
+          <%= event.subtitle %>
+        <% end %>
       </p>
     </div>
   </div>

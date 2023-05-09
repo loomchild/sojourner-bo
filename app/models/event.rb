@@ -10,4 +10,8 @@ class Event < ApplicationRecord
   has_many :users, through: :conference_users
 
   scope :popular, -> { order(favourites_count: :desc).order(:title) }
+
+  def update_speaker_names
+    self.speaker_names = speakers.map(&:name).join(' ')
+  end
 end
