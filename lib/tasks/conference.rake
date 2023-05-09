@@ -1,6 +1,7 @@
 namespace :conference do
   desc "Deletes all conference data"
   task :delete, [:id] => [:environment] do |_task, args|
+    puts "Deleting conference #{args.id}"
     Conference.find_by(id: args.id).try(:destroy)
   end
 
@@ -38,18 +39,28 @@ namespace :conference do
       data[:persons].each { |person| load_speaker(conference, event, person) }
     end
 
+    puts "Creating conference #{args.id}"
+
+    puts "Downloading data"
     data = download(args.id)
 
+    puts "Creating conference"
     conference = Conference.create!(id: args.id, name: args.name)
 
-    data[:events].each { |event| load_event(conference, event) }
+    puts 'Creating events'
+    data[:events].each do |event|
+      print '.'
+      load_event(conference, event)
+    end
+    puts
   end
 
   desc "Resets all conference data"
-  task :reset, [:id, :name] => [:delete, :create, :environment]
+  task :reset, [:id, :name] => [:delete, :create, :create_users, :environment]
 
   desc "Deletes all user data"
   task :delete_users, [:id] => [:environment] do |_task, args|
+    puts "Deleting user data for conference #{args.id}"
     conference = Conference.find_by!(id: args.id)
     conference.conference_users.destroy_all
   end
@@ -67,23 +78,33 @@ namespace :conference do
 
     def create_favourite(conference, conference_user, event_id)
       conference_user.favourites.create!(conference:, event_id:)
-    rescue => error
-      puts "Skipping favourite for event #{event_id}. #{error}."
     end
 
-    def create_conference_user_with_favourites(conference, id, data)
-      # Filter only active users.
-      # TODO: move this to service or rethink completely using counters.
-      # return if event_ids.size < 5
-
+    def create_conference_user_with_favourites(conference, id, data, missing_events)
       conference_user = create_conference_user(conference, id, data[:created_at])
-      data[:favourites].each { |event_id| create_favourite(conference, conference_user, event_id) }
+
+      data[:favourites].each do |event_id|
+        next if missing_events.include?(event_id)
+
+        begin
+          create_favourite(conference, conference_user, event_id)
+        rescue ActiveRecord::RecordInvalid => e
+          missing_events << event_id
+          puts "Skipping favourite for event #{event_id}. #{e}."
+        end
+      end
     end
+
+    puts "Creating user data for conference #{args.id}"
 
     conference = Conference.find_by!(id: args.id)
 
+    puts "Fetching user data"
     users = FirebaseFirestoreService.new.users(conference)
-    users.each { |id, value| create_conference_user_with_favourites(conference, id, value) }
+
+    puts "Populating user data"
+    missing_events = Set.new
+    users.each { |id, value| create_conference_user_with_favourites(conference, id, value, missing_events) }
   end
 
   desc "Resets all user data"
