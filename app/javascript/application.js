@@ -4,7 +4,7 @@ import "@hotwired/turbo-rails"
 import "chartkick"
 import "Chart.bundle"
 
-import 'alpine-turbo-drive-adapter'
+// This doesn't work with streams: import 'alpine-turbo-drive-adapter'
 import Alpine from 'alpinejs'
 
 import './components'
