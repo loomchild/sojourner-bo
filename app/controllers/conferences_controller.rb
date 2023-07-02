@@ -5,14 +5,12 @@ class ConferencesController < ApplicationController
   INCREASE_SINCE = 30.days.ago
 
   def show
-    @user_count = @conference.users.count
-    @user_count_increase = @conference.users.where(created_at: INCREASE_SINCE..).count
-
     @active_user_count = @conference.users.active.count
     @active_user_count_increase = @conference.users.active.where(created_at: INCREASE_SINCE..).count
+    @user_count = @conference.users.count
 
-    @favourite_count = @conference.favourites.count
-    @favourite_count_average = @user_count.positive? ? (@conference.favourites.count.to_f / @user_count) : 0
+    @favourite_count = @conference.users.active.sum(:favourites_count).ceil
+    @favourite_count_average = @active_user_count.positive? ? (@favourite_count.to_f / @active_user_count) : 0
 
     @favourite_histogram_data = favourite_histogram_data
   end
