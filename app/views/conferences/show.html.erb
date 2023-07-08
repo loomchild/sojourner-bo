@@ -6,7 +6,6 @@
       <h2 class="text-xl font-medium text-center mb-4">Usage</h2>
       <div class="text-right">
         <span class="text-4xl font-medium"><%= @favourite_count %></span> favourites<br>
-        <span class="text-4xl text-green-400">+<%= @favourite_count_increase %></span> in 30 days<br>
       </div>
     <% end %>
   </div>
@@ -16,7 +15,6 @@
       <h2 class="text-xl font-medium text-center mb-4">Breadth</h2>
       <div class="text-right">
         <span class="text-4xl font-medium"><%= @active_user_count %></span> active users<br>
-        <span class="text-4xl text-green-400">+<%= @active_user_count_increase %></span> in 30 days<br>
       </div>
     <% end %>
   </div>
@@ -26,9 +24,31 @@
       <h2 class="text-xl font-medium text-center mb-4">Depth</h2>
       <div class="text-right">
         <span class="font-medium text-4xl"><%= @favourite_count_average.round(1) %></span> favorites / user<br>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="w-1/4 px-3">
+    <%= render 'tile' do %>
+      <div class="text-right">
+        <h2 class="text-xl font-medium text-center mb-4">Events</h2>
+        <span class="font-medium text-4xl"><%= @event_count %></span> events<br>
         <span class="font-medium text-4xl text-slate-400"><%= @event_favourite_count_average.round(1) %></span> favorites / event<br>
       </div>
     <% end %>
+  </div>
+
+  <div class="w-1/4 px-3">
+    <%= render 'tile' do %>
+      <div class="text-right">
+        <h2 class="text-xl font-medium text-center mb-4">Tracks</h2>
+        <span class="font-medium text-4xl"><%= @track_count %></span> tracks<br>
+        <span class="font-medium text-4xl text-slate-400"><%= @track_favourite_count_average.round(1) %></span> favorites / track<br>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="w-1/2 px-3">
   </div>
 
   <div class="w-1/2 px-3">
