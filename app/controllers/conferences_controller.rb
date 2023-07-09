@@ -1,6 +1,6 @@
 class ConferencesController < ApplicationController
   before_action :set_conferences
-  before_action :set_conference, only: [:show, :events]
+  before_action :set_conference, only: [:show, :events, :tracks]
 
   INCREASE_SINCE = 30.days.ago
 
@@ -27,6 +27,12 @@ class ConferencesController < ApplicationController
 
     @query = params[:query]
     @events = @events.where('content_searchable @@ websearch_to_tsquery(?)', @query) if @query.present?
+  end
+
+  def tracks
+    data = @conference.tracks.includes(:events).group(:name).sum(:favourites_count)
+    @tracks = data.map { |name, favourites_count| OpenStruct.new({ name:, favourites_count: }) }
+                 .sort_by(&:favourites_count).reverse
   end
 
   private

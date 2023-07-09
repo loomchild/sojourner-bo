@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :conferences, param: :conference_id, only: [:show] do
     member do
       get 'events'
+      get 'tracks'
     end
   end
 end
