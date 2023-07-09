@@ -1,7 +1,7 @@
 <% content_for :navbar do %>
   <div class="flex items-center">
     <div>
-      <div class="flex items-baseline space-x-4">
+      <div class="flex items-baseline space-x-2 md:space-x-4">
         <%= navbar_link "Dashboard", @conference %>
         <%= navbar_link "Events", events_conference_path(@conference) %>
         <%= navbar_link "Tracks", tracks_conference_path(@conference) %>
@@ -10,7 +10,7 @@
   </div>
 
   <div class="flex items-baseline">
-    <div class="mr-4 text-gray-300">Conference</div>
+    <div class="mr-4 text-gray-300 hidden md:block">Conference</div>
     <div class="w-40">
       <%= render "dropdown", title: @conference.name do %>
         <% @conferences.each do |conference| %>
@@ -26,14 +26,14 @@
     <header class="bg-white shadow">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between">
         <h1 class="text-3xl font-bold tracking-tight text-gray-900"><%= yield :title %></h1>
-        <div>
+        <div class="ml-4">
           <%= yield :actions %>
         </div>
       </div>
     </header>
 
     <main>
-      <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
         <%= yield %>
       </div>
     </main>
