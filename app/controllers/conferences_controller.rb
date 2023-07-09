@@ -5,7 +5,7 @@ class ConferencesController < ApplicationController
   INCREASE_SINCE = 30.days.ago
 
   def show
-    @active_user_count = @conference.users.active.count
+    @active_user_count = @conference.conference_users.active.count
 
     @favourite_count = @conference.users.active.sum(:favourites_count).ceil
 
@@ -13,9 +13,13 @@ class ConferencesController < ApplicationController
 
     @event_count = @conference.events.count
     @event_favourite_count_average = @event_count.positive? ? (@favourite_count.to_f / @event_count) : 0
+    @event_with_favourite_count = @conference.events.where(favourites_count: 1..).count
+    @event_favourite_coverage = @event_count.positive? ? 100.0 * @event_with_favourite_count / @event_count : 0
 
     @track_count = @conference.tracks.count
     @track_favourite_count_average = @track_count.positive? ? (@favourite_count.to_f / @track_count) : 0
+
+    @returning_user_data = returning_users_data
 
     @favourite_histogram_data = favourite_histogram_data
 
@@ -43,6 +47,22 @@ class ConferencesController < ApplicationController
 
   def set_conferences
     @conferences = Conference.by_name
+  end
+
+  def returning_users_data
+    active_user_count = @conference.conference_users.active.count
+    return {} unless active_user_count > 0
+
+    active_returning_user_count = @conference.conference_users.active.where(
+      user_id: ConferenceUser.select(:user_id).where('conference_id < ?', @conference.id)
+    ).count
+    returning_percent = (100.0 * active_returning_user_count / active_user_count).round(1)
+
+    data = {}
+    data["Returning (#{returning_percent}%)"] = active_returning_user_count
+    data["New (#{(100 - returning_percent).round(1)})"] = active_user_count - active_returning_user_count
+
+    data
   end
 
   def favourite_histogram_data
