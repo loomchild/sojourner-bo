@@ -2,6 +2,7 @@
   <div class="flex items-center">
     <div>
       <div class="flex items-baseline space-x-2 md:space-x-4">
+        <%= navbar_link "All", '/' %>
         <%= navbar_link "Dashboard", @conference %>
         <%= navbar_link "Events", events_conference_path(@conference) %>
         <%= navbar_link "Tracks", tracks_conference_path(@conference) %>

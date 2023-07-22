@@ -1,0 +1,39 @@
+<% content_for :title, 'Sojourner Back Office' %>
+
+<div class="flex flex-wrap gap-y-4 sm:gap-y-6 -mx-3">
+  <div class="w-full px-3">
+    <%= render 'tile' do %>
+      <div>
+        <h2 class="text-xl font-medium text-center mb-4">Conferences</h2>
+        <div class="flex flex-row justify-center gap-x-6">
+          <% @conferences.each do |conference| %>
+            <%= link_to conference.name, conference, class: "rounded-md px-1 md:px-3 py-1 md:py-2 text-sm font-medium text-gray-700 hover:bg-gray-300 hover:text-black" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="flex flex-wrap gap-y-4 sm:gap-y-6 -mx-3 mt-4 sm:mt-6">
+  <div class="w-full px-3">
+    <%= render 'tile' do %>
+      <h2 class="text-xl font-medium text-center mb-4">Usage (total number of favourites)</h2>
+      <%= area_chart @usage_data, colors: ['#ae1795c0'] %>
+    <% end %>
+  </div>
+
+  <div class="w-full lg:w-1/2 px-3">
+    <%= render 'tile' do %>
+      <h2 class="text-xl font-medium text-center mb-4">Breadth (number of active users)</h2>
+      <%= area_chart @breadth_data, colors: ['#ae1795c0'] %>
+    <% end %>
+  </div>
+
+  <div class="w-full lg:w-1/2 px-3">
+    <%= render 'tile' do %>
+      <h2 class="text-xl font-medium text-center mb-4">Depth (average number of favourites per user)</h2>
+      <%= area_chart @depth_data, colors: ['#ae1795c0'] %>
+    <% end %>
+  </div>
+</div>

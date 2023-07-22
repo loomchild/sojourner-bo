@@ -2,8 +2,6 @@ class ConferencesController < ApplicationController
   before_action :set_conferences
   before_action :set_conference, only: [:show, :events, :tracks]
 
-  INCREASE_SINCE = 30.days.ago
-
   def show
     @active_user_count = @conference.conference_users.active.count
 
