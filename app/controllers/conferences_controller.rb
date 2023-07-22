@@ -21,6 +21,9 @@ class ConferencesController < ApplicationController
 
     @returning_user_data = returning_users_data
 
+    @timeline_recent = params[:timeline_recent] == 'true'
+    @user_timeline_data = user_timeline_data
+
     @favourite_histogram_data = favourite_histogram_data
 
     @events_histogram_data = events_histogram_data
@@ -63,6 +66,26 @@ class ConferencesController < ApplicationController
     data["New (#{(100 - returning_percent).round(1)})"] = active_user_count - active_returning_user_count
 
     data
+  end
+
+  def user_timeline_interval
+    if @timeline_recent
+      [29.days.ago.at_beginning_of_day, Time.now.at_end_of_day]
+    else
+      [@conference.end_date - 22, @conference.end_date + 7]
+    end
+  end
+
+  def user_timeline_data
+    start_ts, end_ts = user_timeline_interval
+
+    data = @conference.users.where(created_at: start_ts..end_ts).group("DATE(created_at AT TIME ZONE 'CET')").count
+
+    start_ts.to_date.upto(end_ts.to_date) do |date|
+      data[date] = data[date] || 0
+    end
+
+    data.sort
   end
 
   def favourite_histogram_data
