@@ -6,7 +6,7 @@ namespace :conference do
   end
 
   desc "Populates all conference data"
-  task :create, [:id, :name] => [:environment] do |_task, args|
+  task :create, [:id, :name, :start, :end] => [:environment] do |_task, args|
     def download(conference_id)
       content = FirebaseStorageService.new.download("conferences/#{conference_id}.json")
       JSON.parse(content.string, symbolize_names: true)
@@ -45,7 +45,7 @@ namespace :conference do
     data = download(args.id)
 
     puts "Creating conference"
-    conference = Conference.create!(id: args.id, name: args.name)
+    conference = Conference.create!(id: args.id, name: args.name, start_date: args.start, end_date: args.end)
 
     puts 'Creating events'
     data[:events].each do |event|
@@ -56,7 +56,7 @@ namespace :conference do
   end
 
   desc "Resets all conference data"
-  task :reset, [:id, :name] => [:delete, :create, :create_users, :environment]
+  task :reset, [:id, :name, :start, :end] => [:delete, :create, :create_users, :environment]
 
   desc "Deletes all user data"
   task :delete_users, [:id] => [:environment] do |_task, args|
