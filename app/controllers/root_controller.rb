@@ -5,6 +5,10 @@ class RootController < ApplicationController
     @usage_data = usage_data
     @breadth_data = breadth_data
     @depth_data = depth_data
+
+    @total_favourite_count = User.joins(:conference_users).where('favourites_count > ?', 5).sum('favourites_count') 
+    @total_user_count = User.joins(:conference_users).where('favourites_count > ?', 5).count
+    @total_registered_user_count = User.joins(:conference_users).where('favourites_count > ?', 5).registered.count
   end
 
   private
@@ -21,7 +25,7 @@ class RootController < ApplicationController
 
   def breadth_data
     user_data = ConferenceUser.active.group(:conference_id).count
-    registered_user_data = ConferenceUser.active.joins(:user).where('users.is_registered', true).group(:conference_id).count
+    registered_user_data = ConferenceUser.joins(:user).active.where('users.is_registered', true).group(:conference_id).count
 
     [
       {

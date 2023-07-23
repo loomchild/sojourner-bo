@@ -16,9 +16,36 @@
 </div>
 
 <div class="flex flex-wrap gap-y-4 sm:gap-y-6 -mx-3 mt-4 sm:mt-6">
+  <div class="w-full md:w-1/3 px-3">
+    <%= render 'tile' do %>
+      <h2 class="text-xl font-medium text-center mb-4">Total favourites</h2>
+      <div class="text-center">
+        <span class="text-4xl font-medium"><%= @total_favourite_count %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="w-full md:w-1/3 px-3">
+    <%= render 'tile' do %>
+      <h2 class="text-xl font-medium text-center mb-4">Total active users</h2>
+      <div class="text-center">
+        <span class="text-4xl font-medium"><%= @total_user_count %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="w-full md:w-1/3 px-3">
+    <%= render 'tile' do %>
+      <h2 class="text-xl font-medium text-center mb-4">Total registered users</h2>
+      <div class="text-center">
+        <span class="text-4xl font-medium"><%= @total_registered_user_count %></span>
+      </div>
+    <% end %>
+  </div>
+
   <div class="w-full px-3">
     <%= render 'tile' do %>
-      <h2 class="text-xl font-medium text-center mb-4">Usage (total number of favourites)</h2>
+      <h2 class="text-xl font-medium text-center mb-4">Usage (number of favourites)</h2>
       <%= area_chart @usage_data, colors: ['#475569c0'] %>
     <% end %>
   </div>
