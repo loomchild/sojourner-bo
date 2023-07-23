@@ -17,7 +17,8 @@ class ConferencesController < ApplicationController
     @track_count = @conference.tracks.count
     @track_favourite_count_average = @track_count.positive? ? (@favourite_count.to_f / @track_count) : 0
 
-    @returning_user_data = returning_users_data
+    @returning_user_data = returning_user_data
+    @registered_user_data = registered_user_data
 
     @timeline_recent = params[:timeline_recent] == 'true'
     @user_timeline_data = user_timeline_data
@@ -50,9 +51,9 @@ class ConferencesController < ApplicationController
     @conferences = Conference.by_name
   end
 
-  def returning_users_data
+  def returning_user_data
     active_user_count = @conference.conference_users.active.count
-    return {} unless active_user_count > 0
+    return {} unless active_user_count.positive?
 
     active_returning_user_count = @conference.conference_users.active.where(
       user_id: ConferenceUser.select(:user_id).where('conference_id < ?', @conference.id)
@@ -62,6 +63,17 @@ class ConferencesController < ApplicationController
     data = {}
     data["Returning (#{returning_percent}%)"] = active_returning_user_count
     data["New (#{(100 - returning_percent).round(1)})"] = active_user_count - active_returning_user_count
+
+    data
+  end
+
+  def registered_user_data
+    active_user_count = @conference.users.active.count
+    registered_user_count = @conference.users.active.registered.count
+
+    data = {}
+    data["Registered"] = registered_user_count
+    data["Anonymous"] = active_user_count - registered_user_count
 
     data
   end
@@ -77,7 +89,7 @@ class ConferencesController < ApplicationController
   def user_timeline_data
     start_ts, end_ts = user_timeline_interval
 
-    data = @conference.users.where(created_at: start_ts..end_ts).group("DATE(created_at AT TIME ZONE 'CET')").count
+    data = @conference.conference_users.where(created_at: start_ts..end_ts).group("DATE(created_at AT TIME ZONE 'CET')").count
 
     start_ts.to_date.upto(end_ts.to_date) do |date|
       data[date] = data[date] || 0

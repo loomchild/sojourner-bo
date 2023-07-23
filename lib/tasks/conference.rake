@@ -67,13 +67,13 @@ namespace :conference do
 
   desc "Populates all user data"
   task :create_users, [:id] => [:environment] do |_task, args|
-    def create_user(id, created_at)
-      User.find_by(id:) || User.create!(id:, created_at:)
+    def create_user(id, created_at, is_registered)
+      User.find_by(id:) || User.create!(id:, created_at:, is_registered:)
     end
 
-    def create_conference_user(conference, id, created_at)
-      user = create_user(id, created_at)
-      conference.conference_users.create(user:)
+    def create_conference_user(conference, id, created_at, is_registered, activated_at)
+      user = create_user(id, created_at, is_registered)
+      conference.conference_users.create(user:, created_at: activated_at)
     end
 
     def create_favourite(conference, conference_user, event_id)
@@ -81,7 +81,7 @@ namespace :conference do
     end
 
     def create_conference_user_with_favourites(conference, id, data, missing_events)
-      conference_user = create_conference_user(conference, id, data[:created_at])
+      conference_user = create_conference_user(conference, id, data[:created_at], data[:is_registered], data[:activated_at])
 
       data[:favourites].each do |event_id|
         next if missing_events.include?(event_id)

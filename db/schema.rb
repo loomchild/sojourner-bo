@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_22_101909) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_23_132637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +18,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_101909) do
     t.string "conference_id", null: false
     t.string "user_id", null: false
     t.bigint "favourites_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["conference_id"], name: "index_conference_users_on_conference_id"
     t.index ["user_id"], name: "index_conference_users_on_user_id"
   end
@@ -80,9 +82,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_101909) do
   end
 
   create_table "users", id: :string, force: :cascade do |t|
-    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_registered", default: false, null: false
   end
 
   add_foreign_key "conference_users", "conferences"

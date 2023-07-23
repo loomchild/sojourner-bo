@@ -20,9 +20,19 @@ class RootController < ApplicationController
   end
 
   def breadth_data
-    data = ConferenceUser.active.group(:conference_id).count
+    user_data = ConferenceUser.active.group(:conference_id).count
+    registered_user_data = ConferenceUser.active.joins(:user).where('users.is_registered', true).group(:conference_id).count
 
-    @conferences.map { |conference| [conference.name, data[conference.id]] }
+    [
+      {
+        name: "Registered",
+        data: @conferences.map { |conference| [conference.name, registered_user_data[conference.id] || 0] }
+      },
+      {
+        name: "Total",
+        data: @conferences.map { |conference| [conference.name, user_data[conference.id]] }
+      }
+    ]
   end
 
   def depth_data
