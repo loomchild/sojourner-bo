@@ -1,4 +1,17 @@
+def reset_conference(id, name, start_date, end_date)
+  Rake::Task['conference:reset'].invoke(id, name, start_date, end_date)
+  Rake::Task['conference:reset'].reenable
+  Rake::Task['conference:reset'].all_prerequisite_tasks.each(&:reenable)
+end
+
 namespace :conference do
+  desc "Resets all conferences"
+  task :reset_all do
+    reset_conference('fosdem-2019', 'FOSDEM 2019', '2019-02-02', '2019-02-03')
+    reset_conference('fosdem-2020', 'FOSDEM 2020', '2020-02-01', '2020-02-02')
+    reset_conference('fosdem-2023', 'FOSDEM 2023', '2023-02-04', '2023-02-05')
+  end
+
   desc "Deletes all conference data"
   task :delete, [:id] => [:environment] do |_task, args|
     puts "Deleting conference #{args.id}"
