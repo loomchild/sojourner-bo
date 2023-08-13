@@ -89,7 +89,7 @@ class ConferencesController < ApplicationController
   def user_timeline_data
     start_ts, end_ts = user_timeline_interval
 
-    data = @conference.conference_users.where(created_at: start_ts..end_ts).group("DATE(created_at AT TIME ZONE 'CET')").count
+    data = @conference.users.where(created_at: start_ts..end_ts).group("DATE(users.created_at AT TIME ZONE 'CET')").count
 
     start_ts.to_date.upto(end_ts.to_date) do |date|
       data[date] = data[date] || 0
@@ -100,6 +100,8 @@ class ConferencesController < ApplicationController
 
   def favourite_histogram_data
     data = @conference.users.active.group(:favourites_count).count
+    return {} if data.blank?
+
     max = (data.keys.max / 10.0).ceil * 10
     data.keys.min.upto(max) { |k| data[k] = 0 if data[k].nil? }
     data

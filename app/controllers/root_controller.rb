@@ -45,7 +45,7 @@ class RootController < ApplicationController
 
     @conferences.map do |conference|
       favourite_count = favourite_data[conference.id]
-      user_count = user_data[conference.id]
+      user_count = user_data[conference.id] || 0
       [conference.name, user_count.positive? ? (favourite_count.to_f / user_count).round(1) : 0]
     end
   end
