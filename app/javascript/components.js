@@ -1,5 +1,6 @@
 import Alpine from 'alpinejs'
 
-import dropdown from './components/dropdown'
+import dropdown from './dropdown'
 
 Alpine.data('dropdown', dropdown)
+
