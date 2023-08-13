@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for sojourner-bo on 2023-07-23T18:06:55+02:00
+# fly.toml app configuration file generated for sojourner-bo on 2023-08-13T16:02:03+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -6,6 +6,8 @@
 app = "sojourner-bo"
 primary_region = "cdg"
 console_command = "/rails/bin/rails console"
+
+[build]
 
 [deploy]
   release_command = "./bin/rails db:prepare"
