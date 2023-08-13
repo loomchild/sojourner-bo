@@ -20,6 +20,6 @@ namespace :fly do
   end
 
   task :conference_reset_all do
-    Rake::Task['conference:reset_all'].invoke
+    sh 'fly ssh console -C "/rails/bin/rails conference:reset_all"'
   end
 end
