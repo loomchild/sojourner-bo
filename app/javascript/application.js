@@ -7,7 +7,7 @@ import "Chart.bundle"
 // This doesn't work with streams: import 'alpine-turbo-drive-adapter'
 import Alpine from 'alpinejs'
 
-import './components'
+import 'components'
 
 window.Alpine = Alpine
 Alpine.start()
