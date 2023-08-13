@@ -7,11 +7,6 @@ namespace :conference do
 
   desc "Populates all conference data"
   task :create, [:id, :name, :start, :end] => [:environment] do |_task, args|
-    def download(conference_id)
-      content = FirebaseStorageService.new.download("conferences/#{conference_id}.json")
-      JSON.parse(content.string, symbolize_names: true)
-    end
-
     def load_track(conference, track_name)
       track_name = 'Main Tracks' if track_name.start_with?('Main Track')
       conference.tracks.find_by(name: track_name) || conference.tracks.create!(name: track_name)
@@ -41,8 +36,8 @@ namespace :conference do
 
     puts "Creating conference #{args.id}"
 
-    puts "Downloading data"
-    data = download(args.id)
+    puts "Fetching data"
+    data = FirebaseService.new.conference(args.id)
 
     puts "Creating conference"
     conference = Conference.create!(id: args.id, name: args.name, start_date: args.start, end_date: args.end)
@@ -67,23 +62,23 @@ namespace :conference do
 
   desc "Populates all user data"
   task :create_users, [:id] => [:environment] do |_task, args|
-    def create_user(id, created_at, is_registered)
-      User.find_by(id:) || User.create!(id:, created_at:, is_registered:)
+    def create_user(id, data)
+      User.find_by(id:) || User.create!(id:, **data)
     end
 
-    def create_conference_user(conference, id, created_at, is_registered, activated_at)
-      user = create_user(id, created_at, is_registered)
-      conference.conference_users.create(user:, created_at: activated_at)
+    def create_conference_user(conference, id, data)
+      user = create_user(id, data)
+      conference.conference_users.create(user:)
     end
 
     def create_favourite(conference, conference_user, event_id)
       conference_user.favourites.create!(conference:, event_id:)
     end
 
-    def create_conference_user_with_favourites(conference, id, data, missing_events)
-      conference_user = create_conference_user(conference, id, data[:created_at], data[:is_registered], data[:activated_at])
+    def create_conference_user_with_favourites(conference, id, user_data, favourites_data, missing_events)
+      conference_user = create_conference_user(conference, id, user_data)
 
-      data[:favourites].each do |event_id|
+      favourites_data.each do |event_id|
         next if missing_events.include?(event_id)
 
         begin
@@ -100,11 +95,15 @@ namespace :conference do
     conference = Conference.find_by!(id: args.id)
 
     puts "Fetching user data"
-    users = FirebaseFirestoreService.new.users(conference)
+    firebase_service = FirebaseService.new
+    users = firebase_service.users
+    favourites = firebase_service.favourites(args.id)
 
     puts "Populating user data"
     missing_events = Set.new
-    users.each { |id, value| create_conference_user_with_favourites(conference, id, value, missing_events) }
+    favourites.each do |id, value|
+      create_conference_user_with_favourites(conference, id, users[id], value[:favourites], missing_events)
+    end
   end
 
   desc "Resets all user data"
