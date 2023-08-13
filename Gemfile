@@ -83,10 +83,8 @@ gem "tailwindcss-rails", "~> 2.0"
 
 gem "heroicon", "~> 1.0"
 
-gem "google-cloud-firestore", "~> 2.6"
-
-gem "google-cloud-storage", "~> 1.44"
-
 gem 'kaminari'
 
 gem "chartkick", "~> 5.0"
+
+gem "faraday", "~> 2.7"
