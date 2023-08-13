@@ -1,4 +1,8 @@
 namespace :fly do
+  task build: 'assets:precompile'
+
+  task release: 'db:migrate'
+
   task :deploy do
     sh 'fly deploy'
   end
