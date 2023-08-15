@@ -26,4 +26,8 @@ namespace :fly do
   task :conference_reset_all do
     sh 'fly ssh console -C "/rails/bin/rails conference:reset_all"'
   end
+
+  task :conference_reset_users do
+    sh 'fly ssh console -C "/rails/bin/rails conference:reset_users"'
+  end
 end
