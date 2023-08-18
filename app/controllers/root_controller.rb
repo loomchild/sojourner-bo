@@ -14,7 +14,7 @@ class RootController < ApplicationController
   private
 
   def set_conferences
-    @conferences = Conference.by_name.reverse
+    @conferences = Conference.by_latest
   end
 
   def usage_data

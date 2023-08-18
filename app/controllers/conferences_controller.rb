@@ -48,7 +48,7 @@ class ConferencesController < ApplicationController
   end
 
   def set_conferences
-    @conferences = Conference.by_name
+    @conferences = Conference.by_latest
   end
 
   def returning_user_data

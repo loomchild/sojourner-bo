@@ -10,7 +10,7 @@ class Conference < ApplicationRecord
   has_many :tracks, dependent: :destroy
   has_many :speakers, dependent: :destroy
 
-  scope :by_name, -> { order(name: :desc) }
+  scope :by_latest, -> { order(name: :desc) }
 
   def self.root
     by_name.first
