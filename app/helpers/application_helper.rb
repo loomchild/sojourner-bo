@@ -3,7 +3,6 @@ module ApplicationHelper
     current = current_page?(path)
 
     classes = 'rounded-md px-1 md:px-3 py-1 md:py-2 text-sm font-medium ' + (current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white')
-    label = current ? content_tag(:span, label) : content_tag(:span, label, class: 'hidden sm:inline') + content_tag(:span, '•', class: 'sm:hidden')
 
     link_to label, path, class: classes, 'aria_current': current ? 'page' : nil
   end

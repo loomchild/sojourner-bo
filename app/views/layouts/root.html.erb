@@ -1,22 +1,10 @@
 <% content_for :navbar do %>
   <div class="flex items-center">
     <div>
-      <div class="flex items-baseline space-x-2 md:space-x-4">
-        <%= navbar_link "All", '/' %>
-      </div>
     </div>
   </div>
 
-  <div class="flex items-baseline">
-    <div class="mr-4 text-gray-300 hidden md:block">Conference</div>
-    <div class="w-40">
-      <%= render "dropdown", title: 'Select...' do %>
-        <% @conferences.each do |conference| %>
-          <%= dropdown_link conference.name, conference %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+  <%= render "conferences_dropdown", title: 'ALL', conferences: @conferences %>
 <% end %>
 
 <% content_for :content do %>

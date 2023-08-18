@@ -1,0 +1,11 @@
+<div class="flex flex-grow items-baseline justify-end">
+  <div class="mr-4 text-gray-300 hidden sm:block">Conference</div>
+  <div class="w-40">
+    <%= render "dropdown", title: title do %>
+      <%= dropdown_link 'ALL', '/' %>
+      <% conferences.each do |conference| %>
+        <%= dropdown_link conference.name, conference %>
+      <% end %>
+    <% end %>
+  </div>
+<div>
