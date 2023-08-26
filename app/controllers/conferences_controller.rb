@@ -26,6 +26,7 @@ class ConferencesController < ApplicationController
     @favourite_histogram_data = favourite_histogram_data
 
     @events_histogram_data = events_histogram_data
+    @tracks_histogram_data = tracks_histogram_data
   end
 
   def events
@@ -104,6 +105,26 @@ class ConferencesController < ApplicationController
 
     max = (data.keys.max / 10.0).ceil * 10
     data.keys.min.upto(max) { |k| data[k] = 0 if data[k].nil? }
+    data
+  end
+
+  def tracks_histogram_data
+    user_tracks =
+      @conference
+      .conference_users.active
+      .joins(:events)
+      .group(:conference_user_id)
+      .distinct.count(:track_id)
+
+    data = Hash.new(0)
+    user_tracks.each_value { |count| data[count] += 1 }
+
+    max = (data.keys.max / 5.0).ceil * 5
+    max.times { |k| data[k] = 0 if data[k].zero? }
+
+    p max
+    p data
+
     data
   end
 
