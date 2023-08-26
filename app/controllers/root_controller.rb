@@ -15,12 +15,13 @@ class RootController < ApplicationController
 
   def set_conferences
     @conferences = Conference.by_latest
+    @conferences_from_oldest = @conferences.reverse
   end
 
   def usage_data
     data = ConferenceUser.active.group(:conference_id).sum(:favourites_count)
 
-    @conferences.map { |conference| [conference.name, data[conference.id]] }
+    @conferences_from_oldest.map { |conference| [conference.name, data[conference.id]] }
   end
 
   def breadth_data
@@ -30,11 +31,11 @@ class RootController < ApplicationController
     [
       {
         name: "Registered",
-        data: @conferences.map { |conference| [conference.name, registered_user_data[conference.id] || 0] }
+        data: @conferences_from_oldest.map { |conference| [conference.name, registered_user_data[conference.id] || 0] }
       },
       {
         name: "Total",
-        data: @conferences.map { |conference| [conference.name, user_data[conference.id]] }
+        data: @conferences_from_oldest.map { |conference| [conference.name, user_data[conference.id]] }
       }
     ]
   end
@@ -43,7 +44,7 @@ class RootController < ApplicationController
     favourite_data = ConferenceUser.active.group(:conference_id).sum(:favourites_count)
     user_data = ConferenceUser.active.group(:conference_id).count
 
-    @conferences.map do |conference|
+    @conferences_from_oldest.map do |conference|
       favourite_count = favourite_data[conference.id]
       user_count = user_data[conference.id] || 0
       [conference.name, user_count.positive? ? (favourite_count.to_f / user_count).round(1) : 0]
