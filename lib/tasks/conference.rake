@@ -14,6 +14,7 @@ namespace :conference do
     reset_conference('fosdem-2021', 'FOSDEM 2021', '2021-02-06', '2021-02-07')
     reset_conference('fosdem-2022', 'FOSDEM 2022', '2022-02-05', '2022-02-06')
     reset_conference('fosdem-2023', 'FOSDEM 2023', '2023-02-04', '2023-02-05')
+    reset_conference('fosdem-2024', 'FOSDEM 2024', '2023-02-03', '2023-02-04')
   end
 
   desc "Resets all conference data"
@@ -86,18 +87,18 @@ namespace :conference do
       conference.conference_users.create!(user_id: id)
     end
 
-    def create_favourite(conference, conference_user, event_id)
-      conference_user.favourites.create!(conference:, event_id:)
+    def create_favourite(conference, conference_user, event_id, created_at)
+      conference_user.favourites.create!(conference:, event_id:, created_at:)
     end
 
     def create_conference_user_with_favourites(conference, id, favourites_data, missing_events)
       conference_user = create_conference_user(conference, id)
 
-      favourites_data.each do |event_id|
+      favourites_data.each do |event_id, data|
         next if missing_events.include?(event_id)
 
         begin
-          create_favourite(conference, conference_user, event_id)
+          create_favourite(conference, conference_user, event_id, data[:updated_at] || '2023-12-31T00:00:00Z')
         rescue ActiveRecord::RecordInvalid => e
           missing_events << event_id
           puts "Skipping favourite for event #{event_id}. #{e}."
