@@ -4,7 +4,7 @@
 #
 
 app = "sojourner-bo"
-primary_region = "cdg"
+primary_region = "ams"
 console_command = "/rails/bin/rails console"
 
 [build]
@@ -13,19 +13,12 @@ console_command = "/rails/bin/rails console"
   release_command = "./bin/rails db:prepare"
 
 [http_service]
+  processes = ["app"]
   internal_port = 3000
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
-  min_machines_running = 0
-  processes = ["app"]
-
-[[http_service.checks]]
-  grace_period = "20s"
-  interval = "30s"
-  method = "GET"
-  timeout = "10s"
-  path = "/"
+  min_machines_running = 1
 
 [[statics]]
   guest_path = "/rails/public"
