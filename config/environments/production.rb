@@ -71,6 +71,14 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "sojourner_bo_production"
 
+  config.active_job.queue_adapter = :good_job
+  config.good_job.cron = {
+    update_last: {
+      cron: "0 8-23 * * *",
+      class: "UpdateLastJob"
+    }
+  }
+
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.

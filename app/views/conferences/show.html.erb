@@ -71,8 +71,8 @@
           <div>Created users timeline</div>
           <div class="w-44 ml-4">
             <%= render "dropdown", title: @timeline_recent ? 'Last 30 days' : 'During conference' do %>
-              <%= dropdown_link 'During conference', @conference %>
               <%= dropdown_link 'Last 30 days', conference_path(@conference, timeline_recent: true) %>
+              <%= dropdown_link 'During conference', conference_path(@conference, timeline_recent: false) %>
             <% end %>
           </div>
         </h2>
@@ -83,8 +83,18 @@
 
   <div class="w-full lg:w-1/2 px-3">
     <%= render 'tile' do %>
-      <h2 class="text-xl font-medium text-center mb-4">Track favourite histogram</h2>
-      <%= bar_chart @tracks_histogram_data, height: '180px', colors: ['#475569c0'], library: { barPercentage: 1, categoryPercentage: 1, borderSkipped: true, inflateAmount: 0, scales: { x: { reverse: true } }, y: { type: 'linear', ticks: { maxTicksLimit: @tracks_histogram_data.length / 5 + 1, stepSize: 5 } } } %>
+      <%= turbo_frame_tag "favourites-timeline" do %>
+        <h2 class="text-xl font-medium mb-4 flex flex-wrap gap-y-2 items-baseline justify-center">
+          <div>Created favourites timeline</div>
+          <div class="w-44 ml-4">
+            <%= render "dropdown", title: @timeline_recent ? 'Last 30 days' : 'During conference' do %>
+              <%= dropdown_link 'Last 30 days', conference_path(@conference, timeline_recent: true) %>
+              <%= dropdown_link 'During conference', conference_path(@conference, timeline_recent: false) %>
+            <% end %>
+          </div>
+        </h2>
+        <%= column_chart @favourite_timeline_data, height: '140px', colors: @timeline_recent ? ['#475569c0'] * 29 + ['#ae1795c0'] : ['#475569c0'] * 21 + ['#ae1795c0'] * 2 + ['#475569c0'] * 7, library: { barPercentage: 1, categoryPercentage: 1, borderSkipped: true, inflateAmount: 0, scales: { x: { ticks: { display: false } }, y: { type: 'linear', ticks: { stepSize: 1 } } } } %>
+      <% end %>
     <% end %>
   </div>
 
@@ -99,6 +109,13 @@
     <%= render 'tile' do %>
       <h2 class="text-xl font-medium text-center mb-4">Event favourite histogram</h2>
       <%= bar_chart @events_histogram_data, height: '480px', colors: ['#475569c0'], library: { barPercentage: 1, categoryPercentage: 1, borderSkipped: true, inflateAmount: 0, scales: { x: { reverse: true } }, y: { type: 'linear', ticks: { maxTicksLimit: @events_histogram_data.length / 10 + 1, stepSize: 10 } } } %>
+    <% end %>
+  </div>
+
+  <div class="w-full lg:w-1/2 px-3">
+    <%= render 'tile' do %>
+      <h2 class="text-xl font-medium text-center mb-4">Track favourite histogram</h2>
+      <%= bar_chart @tracks_histogram_data, height: '180px', colors: ['#475569c0'], library: { barPercentage: 1, categoryPercentage: 1, borderSkipped: true, inflateAmount: 0, scales: { x: { reverse: true } }, y: { type: 'linear', ticks: { maxTicksLimit: @tracks_histogram_data.length / 5 + 1, stepSize: 5 } } } %>
     <% end %>
   </div>
 </div>

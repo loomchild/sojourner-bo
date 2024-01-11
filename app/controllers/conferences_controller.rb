@@ -20,8 +20,9 @@ class ConferencesController < ApplicationController
     @returning_user_data = returning_user_data
     @registered_user_data = registered_user_data
 
-    @timeline_recent = params[:timeline_recent] == 'true'
+    @timeline_recent = params[:timeline_recent] != 'false'
     @user_timeline_data = user_timeline_data
+    @favourite_timeline_data = favourite_timeline_data
 
     @favourite_histogram_data = favourite_histogram_data
 
@@ -79,7 +80,7 @@ class ConferencesController < ApplicationController
     data
   end
 
-  def user_timeline_interval
+  def timeline_interval
     if @timeline_recent
       [29.days.ago.at_beginning_of_day, Time.now.at_end_of_day]
     else
@@ -88,9 +89,21 @@ class ConferencesController < ApplicationController
   end
 
   def user_timeline_data
-    start_ts, end_ts = user_timeline_interval
+    start_ts, end_ts = timeline_interval
 
     data = @conference.users.where(created_at: start_ts..end_ts).group("DATE(users.created_at AT TIME ZONE 'CET')").count
+
+    start_ts.to_date.upto(end_ts.to_date) do |date|
+      data[date] = data[date] || 0
+    end
+
+    data.sort
+  end
+
+  def favourite_timeline_data
+    start_ts, end_ts = timeline_interval
+
+    data = @conference.favourites.where(created_at: '2024-01-01'..).where(created_at: start_ts..end_ts).group("DATE(favourites.created_at AT TIME ZONE 'CET')").count
 
     start_ts.to_date.upto(end_ts.to_date) do |date|
       data[date] = data[date] || 0
