@@ -18,16 +18,4 @@ namespace :fly do
   task :dbconsole do
     sh 'fly ssh console --pty -C "/rails/bin/rails dbconsole"'
   end
-
-  task :conference_reset, [:id, :name, :start, :end] => [:environment] do |_task, args|
-    sh "fly ssh console -C \"/rails/bin/rails conference:reset['#{args.id}','#{args.name}','#{args.start}','#{args.end}']\""
-  end
-
-  task :conference_reset_all do
-    sh 'fly ssh console -C "/rails/bin/rails conference:reset_all"'
-  end
-
-  task :conference_reset_users do
-    sh 'fly ssh console -C "/rails/bin/rails conference:reset_users"'
-  end
 end
