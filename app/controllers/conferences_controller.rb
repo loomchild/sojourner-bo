@@ -135,9 +135,6 @@ class ConferencesController < ApplicationController
     max = (data.keys.max / 5.0).ceil * 5
     max.times { |k| data[k] = 0 if data[k].zero? }
 
-    p max
-    p data
-
     data
   end
 
