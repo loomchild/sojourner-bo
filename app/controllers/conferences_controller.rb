@@ -72,10 +72,11 @@ class ConferencesController < ApplicationController
   def registered_user_data
     active_user_count = @conference.users.active.count
     registered_user_count = @conference.users.active.registered.count
+    registered_percent = (100.0 * registered_user_count / active_user_count).round(1)
 
     data = {}
-    data["Registered"] = registered_user_count
-    data["Anonymous"] = active_user_count - registered_user_count
+    data["Registered (#{registered_percent}%)"] = registered_user_count
+    data["Anonymous (#{100 - registered_percent}%)"] = active_user_count - registered_user_count
 
     data
   end
