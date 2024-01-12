@@ -1,19 +1,23 @@
 def load_track(conference, track_name)
   track_name = 'Main Tracks' if track_name.start_with?('Main Track')
-  conference.tracks.find_by(name: track_name) || conference.tracks.create!(name: track_name)
+  conference.tracks.find_or_create_by!(name: track_name)
 end
 
 def load_speaker(conference, event, speaker_name)
-  speaker = conference.speakers.find_by(name: speaker_name) || conference.speakers.create!(name: speaker_name)
+  speaker = conference.speakers.find_or_create_by!(name: speaker_name)
   event.speakers.push(speaker)
+end
+
+def delete_other_events(conference, event_ids)
+  conference.events.where.not(id: event_ids).destroy_all
 end
 
 def load_event(conference, data)
   track = load_track(conference, data[:track])
   type = EventType.find(data[:type])
 
-  event = conference.events.create!(
-    id: data[:id],
+  event = conference.events.find_or_create_by(id: data[:id])
+  event.update!(
     track:,
     type:,
     title: data[:title],
@@ -26,11 +30,12 @@ def load_event(conference, data)
 end
 
 def create_conference_user(conference, id)
-  conference.conference_users.create!(user_id: id)
+  conference.conference_users.find_or_create_by!(user_id: id)
 end
 
 def create_favourite(conference, conference_user, event_id, created_at)
-  conference_user.favourites.create!(conference:, event_id:, created_at:)
+  favourite = conference_user.favourites.find_or_create_by(conference:, event_id:)
+  favourite.update!(created_at:)
 end
 
 def create_conference_user_with_favourites(conference, id, favourites_data, missing_events)
@@ -49,46 +54,44 @@ def create_conference_user_with_favourites(conference, id, favourites_data, miss
 end
 
 def create_or_update_user(id, data)
-  user = User.find_by(id:)
-
-  if user
-    user.update!(**data)
-  else
-    User.create!(id:, **data)
-  end
+  user = User.find_or_create_by(id:)
+  user.update!(**data)
 end
 
 class UpdateService
-  def reset_all
-    create_users
+  def update_all
+    update_users
 
-    reset_conference('fosdem-2019', 'FOSDEM 2019', '2019-02-02', '2019-02-03')
-    reset_conference('fosdem-2020', 'FOSDEM 2020', '2020-02-01', '2020-02-02')
-    reset_conference('fosdem-2021', 'FOSDEM 2021', '2021-02-06', '2021-02-07')
-    reset_conference('fosdem-2022', 'FOSDEM 2022', '2022-02-05', '2022-02-06')
-    reset_conference('fosdem-2023', 'FOSDEM 2023', '2023-02-04', '2023-02-05')
-    reset_conference('fosdem-2024', 'FOSDEM 2024', '2023-02-03', '2023-02-04')
+    update_conference('fosdem-2019', 'FOSDEM 2019', '2019-02-02', '2019-02-03')
+    update_conference('fosdem-2020', 'FOSDEM 2020', '2020-02-01', '2020-02-02')
+    update_conference('fosdem-2021', 'FOSDEM 2021', '2021-02-06', '2021-02-07')
+    update_conference('fosdem-2022', 'FOSDEM 2022', '2022-02-05', '2022-02-06')
+    update_conference('fosdem-2023', 'FOSDEM 2023', '2023-02-04', '2023-02-05')
+    update_conference('fosdem-2024', 'FOSDEM 2024', '2023-02-03', '2023-02-04')
   end
 
-  def reset_last
-    create_users
+  def update_last
+    update_users
 
-    reset_conference('fosdem-2024', 'FOSDEM 2024', '2023-02-03', '2023-02-04')
+    update_conference('fosdem-2024', 'FOSDEM 2024', '2023-02-03', '2023-02-04')
   end
 
   def reset_conference(id, name, start_date, end_date)
     delete_conference(id)
-    create_conference(id, name, start_date, end_date)
+    update_conference(id, name, start_date, end_date)
   end
 
   def delete_conference(id)
     Conference.find_by(id:).try(:destroy)
   end
 
-  def create_conference(id, name, start_date, end_date)
+  def update_conference(id, name, start_date, end_date)
     data = FirebaseService.new.conference(id)
 
-    conference = Conference.create!(id: id, name:, start_date:, end_date:)
+    conference = Conference.create_or_find_by(id: id)
+    conference.update!(name:, start_date:, end_date:)
+
+    delete_other_events(conference, data[:events].map { |event| event[:id] })
 
     data[:events].each do |event|
       load_event(conference, event)
@@ -104,14 +107,14 @@ class UpdateService
 
   def reset_users
     delete_users
-    create_users
+    update_users
   end
 
   def delete_users
     User.destroy_all
   end
 
-  def create_users
+  def update_users
     users = FirebaseService.new.users
 
     users.each do |id, data|

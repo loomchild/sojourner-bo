@@ -76,6 +76,11 @@ Rails.application.configure do
     update_last: {
       cron: "0 8-23 * * *",
       class: "UpdateLastJob"
+    },
+
+    update_all: {
+      cron: "0 0 * * *",
+      class: "UpdateAllJob"
     }
   }
 
