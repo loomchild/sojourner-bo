@@ -4,8 +4,7 @@ def load_track(conference, track_name)
 end
 
 def load_speaker(conference, event, speaker_name)
-  speaker = conference.speakers.find_or_create_by!(name: speaker_name)
-  event.speakers.push(speaker)
+  conference.speakers.find_or_create_by!(name: speaker_name)
 end
 
 def delete_other_events(conference, event_ids)
@@ -26,7 +25,9 @@ def load_event(conference, data)
     description: data[:description]
   )
 
-  data[:persons].each { |person| load_speaker(conference, event, person) }
+  speakers = data[:persons].map { |person| load_speaker(conference, event, person) }
+
+  event.speakers = speakers if speakers != event.speakers
 end
 
 def create_conference_user(conference, id)
