@@ -6,7 +6,7 @@
       <div class="h-full flex flex-col justify-center relative">
         <h1 class="text-3xl font-medium text-center mb-4"><%= @conference.name %></h2>
         <h2 class="text-xl font-medium text-center mb-4"><%= @conference.start_date %> - <%= @conference.end_date %></h2>
-        <div class="absolute top-0 right-4 opacity-40 text-sm">Last updated: <%= time_ago_in_words @conference.updated_at %> ago</div>
+        <div class="absolute -bottom-4 -right-2 opacity-40 text-sm">Last updated: <%= time_ago_in_words @conference.updated_at %> ago</div>
       </div>
     <% end %>
   </div>
