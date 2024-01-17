@@ -3,7 +3,7 @@ def load_track(conference, track_name)
   conference.tracks.find_or_create_by!(name: track_name)
 end
 
-def load_speaker(conference, event, speaker_name)
+def load_speaker(conference, speaker_name)
   conference.speakers.find_or_create_by!(name: speaker_name)
 end
 
@@ -25,7 +25,7 @@ def load_event(conference, data)
     description: data[:description]
   )
 
-  speakers = data[:persons].map { |person| load_speaker(conference, event, person) }
+  speakers = data[:persons].map { |person| load_speaker(conference, person) }
 
   event.speakers = speakers if speakers != event.speakers
 end
@@ -91,6 +91,7 @@ class UpdateService
 
     conference = Conference.create_or_find_by(id: id)
     conference.update!(name:, start_date:, end_date:)
+    conference.touch
 
     delete_other_events(conference, data[:events].map { |event| event[:id] })
 

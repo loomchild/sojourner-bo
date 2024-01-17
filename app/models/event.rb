@@ -5,7 +5,7 @@ class Event < ApplicationRecord
   belongs_to :track
   has_many :event_speakers, dependent: :destroy
   has_many :speakers, through: :event_speakers
-  has_many :favourites
+  has_many :favourites, dependent: :destroy
   has_many :conference_users, through: :favourites
   has_many :users, through: :conference_users
 

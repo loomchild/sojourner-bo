@@ -74,7 +74,7 @@ Rails.application.configure do
   config.active_job.queue_adapter = :good_job
   config.good_job.cron = {
     update_last: {
-      cron: "0 8-23 * * *",
+      cron: "0 0,8-23 * * *",
       class: "UpdateLastJob"
     },
 
