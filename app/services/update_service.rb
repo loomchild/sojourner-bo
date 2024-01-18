@@ -68,13 +68,13 @@ class UpdateService
     update_conference('fosdem-2021', 'FOSDEM 2021', '2021-02-06', '2021-02-07')
     update_conference('fosdem-2022', 'FOSDEM 2022', '2022-02-05', '2022-02-06')
     update_conference('fosdem-2023', 'FOSDEM 2023', '2023-02-04', '2023-02-05')
-    update_conference('fosdem-2024', 'FOSDEM 2024', '2023-02-03', '2023-02-04')
+    update_conference('fosdem-2024', 'FOSDEM 2024', '2024-02-03', '2024-02-04')
   end
 
   def update_last
     update_users
 
-    update_conference('fosdem-2024', 'FOSDEM 2024', '2023-02-03', '2023-02-04')
+    update_conference('fosdem-2024', 'FOSDEM 2024', '2024-02-03', '2024-02-04')
   end
 
   def reset_conference(id, name, start_date, end_date)
