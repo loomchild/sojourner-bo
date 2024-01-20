@@ -30,8 +30,13 @@ def load_event(conference, data)
   event.speakers = speakers if speakers != event.speakers
 end
 
-def create_conference_user(conference, id)
-  conference.conference_users.find_or_create_by!(user_id: id)
+def create_conference_user(conference, id, created_at)
+  conference_user = conference.conference_users.find_or_create_by!(user_id: id)
+
+  created_at = conference_user.user.created_at if created_at.nil?
+
+  conference_user.update!(created_at:)
+  conference_user
 end
 
 def create_favourite(conference, conference_user, event_id, created_at)
@@ -40,7 +45,9 @@ def create_favourite(conference, conference_user, event_id, created_at)
 end
 
 def create_conference_user_with_favourites(conference, id, favourites_data, missing_events)
-  conference_user = create_conference_user(conference, id)
+  created_at = favourites_data.values.pluck(:updated_at).compact.min
+
+  conference_user = create_conference_user(conference, id, created_at)
 
   favourites_data.each do |event_id, data|
     next if missing_events.include?(event_id)

@@ -92,7 +92,7 @@ class ConferencesController < ApplicationController
   def user_timeline_data
     start_ts, end_ts = timeline_interval
 
-    data = @conference.users.active.where(created_at: start_ts..end_ts).group("DATE(users.created_at AT TIME ZONE 'CET')").count
+    data = @conference.conference_users.active.where(created_at: start_ts..end_ts).group("DATE(conference_users.created_at AT TIME ZONE 'CET')").count
 
     start_ts.to_date.upto(end_ts.to_date) do |date|
       data[date] = data[date] || 0
