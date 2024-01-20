@@ -20,7 +20,7 @@ class ConferencesController < ApplicationController
     @returning_user_data = returning_user_data
     @registered_user_data = registered_user_data
 
-    @timeline_recent = params[:timeline_recent] != 'false'
+    @timeline_recent = @conference == Conference.root ? params[:timeline_recent] != 'false' : params[:timeline_recent] == 'true'
     @user_timeline_data = user_timeline_data
     @favourite_timeline_data = favourite_timeline_data
 

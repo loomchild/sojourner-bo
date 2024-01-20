@@ -13,6 +13,6 @@ class Conference < ApplicationRecord
   scope :by_latest, -> { order(name: :desc) }
 
   def self.root
-    by_name.first
+    by_latest.first
   end
 end
