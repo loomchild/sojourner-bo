@@ -22,7 +22,8 @@ def load_event(conference, data)
     title: data[:title],
     subtitle: data[:subtitle],
     abstract: data[:abstract],
-    description: data[:description]
+    description: data[:description],
+    date: data[:date]
   )
 
   speakers = data[:persons].map { |person| load_speaker(conference, person) }
