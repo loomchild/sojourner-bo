@@ -13,6 +13,8 @@ class ConferencesController < ApplicationController
     @event_favourite_count_average = @event_count.positive? ? (@favourite_count.to_f / @event_count) : 0
     @event_with_favourite_count = @conference.events.where(favourites_count: 1..).count
     @event_favourite_coverage = @event_count.positive? ? 100.0 * @event_with_favourite_count / @event_count : 0
+    @event_with_video_count = @conference.events.where("meta->'video' = 'true'").count
+    @event_with_video_coverage = @event_count.positive? ? 100.0 * @event_with_video_count / @event_count : 0
 
     @track_count = @conference.tracks.count
     @track_favourite_count_average = @track_count.positive? ? (@favourite_count.to_f / @track_count) : 0

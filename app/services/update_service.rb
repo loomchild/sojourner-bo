@@ -16,6 +16,11 @@ def load_event(conference, data)
   type = EventType.find(data[:type])
 
   event = conference.events.find_or_create_by(id: data[:id])
+
+  meta = {
+    video: !(data[:videos]&.empty?)
+  }
+
   event.update!(
     track:,
     type:,
@@ -23,7 +28,8 @@ def load_event(conference, data)
     subtitle: data[:subtitle],
     abstract: data[:abstract],
     description: data[:description],
-    date: data[:date]
+    date: data[:date],
+    meta:
   )
 
   speakers = data[:persons].map { |person| load_speaker(conference, person) }
