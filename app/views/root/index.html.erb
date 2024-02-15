@@ -46,21 +46,21 @@
   <div class="w-full px-3">
     <%= render 'tile' do %>
       <h2 class="text-xl font-medium text-center mb-4">Usage (number of favourites)</h2>
-      <%= area_chart @usage_data, colors: ['#475569c0'] %>
+      <%= area_chart @usage_data, colors: ['#475569c0'], library: { lineTension: 0 } %>
     <% end %>
   </div>
 
   <div class="w-full lg:w-1/2 px-3">
     <%= render 'tile' do %>
       <h2 class="text-xl font-medium text-center mb-4">Breadth (number of active users)</h2>
-      <%= area_chart @breadth_data, colors: ['#ae1795c0', '#475569c0'] %>
+      <%= area_chart @breadth_data, colors: ['#ae1795c0', '#475569c0'], library: { lineTension: 0 } %>
     <% end %>
   </div>
 
   <div class="w-full lg:w-1/2 px-3">
     <%= render 'tile' do %>
       <h2 class="text-xl font-medium text-center mb-4">Depth (average number of favourites per user)</h2>
-      <%= area_chart @depth_data, colors: ['#475569c0'] %>
+      <%= area_chart @depth_data, colors: ['#475569c0'], library: { lineTension: 0 } %>
     <% end %>
   </div>
 </div>
