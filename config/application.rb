@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module SojournerBo
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.2
+    config.load_defaults 8.0
 
     config.firebase = config_for(:firebase)
     config.firebase.token = ENV['FIREBASE_ADMIN_TOKEN']
