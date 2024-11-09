@@ -1,3 +1,9 @@
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
@@ -15,3 +21,4 @@ Style/EmptyMethod:
 
 Lint/UnusedMethodArgument:
   AllowUnusedKeywordArguments: true
+
