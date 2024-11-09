@@ -9,3 +9,9 @@ Style/Documentation:
 
 Style/SymbolArray:
   Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Lint/UnusedMethodArgument:
+  AllowUnusedKeywordArguments: true
