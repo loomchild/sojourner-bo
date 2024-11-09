@@ -40,9 +40,7 @@ class ConferencesController < ApplicationController
   end
 
   def tracks
-    data = @conference.tracks.includes(:events).group(:name).sum(:favourites_count)
-    @tracks = data.map { |name, favourites_count| OpenStruct.new({ name:, favourites_count: }) }
-                 .sort_by(&:favourites_count).reverse
+    @tracks = @conference.tracks.includes(:events).sort_by(&:favourites_count).reverse
   end
 
   private
