@@ -79,7 +79,7 @@ gem 'dotenv-rails', groups: %i[development test]
 
 gem "active_hash", "~> 3.1"
 
-gem "tailwindcss-rails", "~> 2.0"
+gem "tailwindcss-rails", "~> 3.0"
 
 gem "heroicon", "~> 1.0"
 
