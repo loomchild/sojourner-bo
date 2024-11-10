@@ -293,7 +293,7 @@ DEPENDENCIES
   dockerfile-rails (>= 1.5)
   dotenv-rails
   faraday (~> 2.7)
-  good_job (~> 4.4.2)
+  good_job (~> 4.4)
   heroicon (~> 1.0)
   importmap-rails
   jbuilder
