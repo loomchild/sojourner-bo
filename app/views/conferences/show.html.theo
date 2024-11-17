@@ -73,8 +73,8 @@
           <div>Created users timeline</div>
           <div class="w-44 ml-4">
             <_dropdown title%="@timeline_recent ? 'Last 30 days' : 'During conference'">
-              <%= dropdown_link 'Last 30 days', conference_path(@conference, timeline_recent: true) %>
-              <%= dropdown_link 'During conference', conference_path(@conference, timeline_recent: false) %>
+              <_dropdown-link label="Last 30 days" url%="conference_path(@conference, timeline_recent: true)" />
+              <_dropdown-link label="During conference" url%="conference_path(@conference, timeline_recent: false)" />
             </_dropdown>
           </div>
         </h2>
@@ -90,8 +90,8 @@
           <div>Created favourites timeline</div>
           <div class="w-44 ml-4">
             <_dropdown title%="@timeline_recent ? 'Last 30 days' : 'During conference'">
-              <%= dropdown_link 'Last 30 days', conference_path(@conference, timeline_recent: true) %>
-              <%= dropdown_link 'During conference', conference_path(@conference, timeline_recent: false) %>
+              <_dropdown-link label="Last 30 days" url%="conference_path(@conference, timeline_recent: true)" />
+              <_dropdown-link label="During conference" url%="conference_path(@conference, timeline_recent: false)" />
             </_dropdown>
           </div>
         </h2>

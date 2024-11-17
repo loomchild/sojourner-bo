@@ -2,9 +2,9 @@
   <div class="mr-4 text-gray-300 hidden sm:block">Conference</div>
   <div class="w-40">
     <_dropdown title%>
-      <%= dropdown_link 'ALL', '/' %>
+      <_dropdown-link label="ALL" url="/" />
       <% conferences.each do |conference| %>
-        <%= dropdown_link conference.name, conference %>
+        <_dropdown-link label%="conference.name" url%="conference_path(conference)" />
       <% end %>
     </_dropdown>
   </div>
