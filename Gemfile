@@ -90,3 +90,7 @@ gem "solid_queue", "~> 1.0"
 
 gem "theo-rails", "~> 0.4.6"
 # gem "theo-rails", path: "../../../theo/theo-rails"
+
+gem "kamal", "~> 2.3"
+
+gem "thruster", "~> 0.1.9"
