@@ -1,0 +1,8 @@
+production:
+  update_last:
+    class: UpdateLastJob
+    schedule: at 6am every day
+
+#  update_all:
+#    class: UpdateAllJob
+#    schedule: every month

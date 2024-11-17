@@ -50,19 +50,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
-  # config.active_job.queue_adapter = :resque
-  config.active_job.queue_adapter = :good_job
-  config.good_job.cron = {
-    update_last: {
-      cron: "0 0,6,12,18 * * *",
-      class: "UpdateLastJob"
-    },
-
-    update_all: {
-      cron: "0 0 * * *",
-      class: "UpdateAllJob"
-    }
-  }
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
