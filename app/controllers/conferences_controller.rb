@@ -36,6 +36,7 @@ class ConferencesController < ApplicationController
     @events = @conference.events.popular.includes(:speakers).page(params[:page]).per(10)
 
     @query = params[:query]
+    return unless @query.size > 1
 
     keywords = @query&.downcase&.split
     keywords&.each do |keyword|
