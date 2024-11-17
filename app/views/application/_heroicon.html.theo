@@ -1,0 +1,3 @@
+<%# locals: (icon:, variant: nil, class:nil) -%>
+
+<%= heroicon icon, variant: variant&.to_sym, options: { class: binding.local_variable_get('class') } %>

@@ -3,7 +3,7 @@
   <div>
     <button x-ref="button" :aria-expanded="open" :aria-controls="$id('dropdown-button')" @click="toggle()" type="button" class="inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" aria-haspopup="true">
       <%= title %>
-      <%= heroicon "chevron-down", variant: :mini, options: { class: "-mr-1 text-gray-400" } %>
+      <_heroicon icon="chevron-down" variant="mini" class="-mr-1 text-gray-400" />
     </button>
   </div>
 
