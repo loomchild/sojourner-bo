@@ -68,7 +68,7 @@
 
   <div class="w-full lg:w-1/2 px-3">
     <_tile>
-      <%= turbo_frame_tag "users-timeline" do %>
+      <turbo-frame id="users-timeline">
         <h2 class="text-xl font-medium mb-4 flex flex-wrap gap-y-2 items-baseline justify-center">
           <div>Created users timeline</div>
           <div class="w-44 ml-4">
@@ -79,13 +79,13 @@
           </div>
         </h2>
         <%= column_chart @user_timeline_data, height: '140px', colors: @timeline_recent ? ['#475569c0'] * 29 + ['#ae1795c0'] : ['#475569c0'] * 21 + ['#ae1795c0'] * 2 + ['#475569c0'] * 7, library: { barPercentage: 1, categoryPercentage: 1, borderSkipped: true, inflateAmount: 0, scales: { x: { ticks: { display: false } }, y: { type: 'linear', ticks: { stepSize: 1 } } } } %>
-      <% end %>
+      </turbo-frame>
     </_tile>
   </div>
 
   <div class="w-full lg:w-1/2 px-3">
     <_tile>
-      <%= turbo_frame_tag "favourites-timeline" do %>
+      <turbo-frame id="favourites-timeline">
         <h2 class="text-xl font-medium mb-4 flex flex-wrap gap-y-2 items-baseline justify-center">
           <div>Created favourites timeline</div>
           <div class="w-44 ml-4">
@@ -96,7 +96,7 @@
           </div>
         </h2>
         <%= column_chart @favourite_timeline_data, height: '140px', colors: @timeline_recent ? ['#475569c0'] * 29 + ['#ae1795c0'] : ['#475569c0'] * 21 + ['#ae1795c0'] * 2 + ['#475569c0'] * 7, library: { barPercentage: 1, categoryPercentage: 1, borderSkipped: true, inflateAmount: 0, scales: { x: { ticks: { display: false } }, y: { type: 'linear', ticks: { stepSize: 1 } } } } %>
-      <% end %>
+      </turbo-frame>
     </_tile>
   </div>
 

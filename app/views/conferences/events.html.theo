@@ -12,7 +12,7 @@
   </div>
 <% end %>
 
-<%= turbo_frame_tag "events" do %>
+<turbo-frame id="events">
   <ul role="list" class="divide-y divide-gray-100">
     <_event collection="@events" />
   </ul>
@@ -28,4 +28,4 @@
       <_paging_nav />
     </div>
   </div>
-<% end %>
+</turbo-frame>
