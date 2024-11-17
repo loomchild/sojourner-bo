@@ -1,5 +1,5 @@
 <% content_for :title, "Tracks" %>
 
 <ul role="list" class="divide-y divide-gray-100">
-  <%= render partial: 'track', collection: @tracks %>
+  <_track collection="@tracks" />
 </ul>

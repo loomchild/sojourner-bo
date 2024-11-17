@@ -2,7 +2,7 @@
 
 <div class="flex flex-wrap gap-y-4 sm:gap-y-6 -mx-3">
   <div class="w-full px-3">
-    <%= render 'tile' do %>
+    <_tile>
       <div>
         <h2 class="text-xl font-medium text-center mb-4">Conferences</h2>
         <div class="flex flex-row flex-wrap justify-center gap-x-6">
@@ -11,56 +11,56 @@
           <% end %>
         </div>
       </div>
-    <% end %>
+    </_tile>
   </div>
 </div>
 
 <div class="flex flex-wrap gap-y-4 sm:gap-y-6 -mx-3 mt-4 sm:mt-6">
   <div class="w-full md:w-1/3 px-3">
-    <%= render 'tile' do %>
+    <_tile>
       <h2 class="text-xl font-medium text-center mb-4">Total favourites</h2>
       <div class="text-center">
         <span class="text-4xl font-medium"><%= @total_favourite_count %></span>
       </div>
-    <% end %>
+    </_tile>
   </div>
 
   <div class="w-full md:w-1/3 px-3">
-    <%= render 'tile' do %>
+    <_tile>
       <h2 class="text-xl font-medium text-center mb-4">Total active users</h2>
       <div class="text-center">
         <span class="text-4xl font-medium"><%= @total_user_count %></span>
       </div>
-    <% end %>
+    </_tile>
   </div>
 
   <div class="w-full md:w-1/3 px-3">
-    <%= render 'tile' do %>
+    <_tile>
       <h2 class="text-xl font-medium text-center mb-4">Total registered users</h2>
       <div class="text-center">
         <span class="text-4xl font-medium"><%= @total_registered_user_count %></span>
       </div>
-    <% end %>
+    </_tile>
   </div>
 
   <div class="w-full px-3">
-    <%= render 'tile' do %>
+    <_tile>
       <h2 class="text-xl font-medium text-center mb-4">Usage (number of favourites)</h2>
       <%= area_chart @usage_data, colors: ['#475569c0'], library: { lineTension: 0 } %>
-    <% end %>
+    </_tile>
   </div>
 
   <div class="w-full lg:w-1/2 px-3">
-    <%= render 'tile' do %>
+    <_tile>
       <h2 class="text-xl font-medium text-center mb-4">Breadth (number of active users)</h2>
       <%= area_chart @breadth_data, colors: ['#ae1795c0', '#475569c0'], library: { lineTension: 0 } %>
-    <% end %>
+    </_tile>
   </div>
 
   <div class="w-full lg:w-1/2 px-3">
-    <%= render 'tile' do %>
+    <_tile>
       <h2 class="text-xl font-medium text-center mb-4">Depth (average number of favourites per user)</h2>
       <%= area_chart @depth_data, colors: ['#475569c0'], library: { lineTension: 0 } %>
-    <% end %>
+    </_tile>
   </div>
 </div>

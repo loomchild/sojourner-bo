@@ -87,3 +87,6 @@ gem "sentry-ruby", "~> 5.10"
 gem "sentry-rails", "~> 5.10"
 
 gem "solid_queue", "~> 1.0"
+
+gem "theo-rails", "~> 0.4.6"
+# gem "theo-rails", path: "../../../theo/theo-rails"

@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <%= render "conferences_dropdown", title: 'ALL', conferences: @conferences %>
+  <_conferences-dropdown title="ALL" conferences%="@conferences" />
 <% end %>
 
 <% content_for :content do %>
