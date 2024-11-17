@@ -6,9 +6,6 @@ ruby "3.2.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.0"
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
-
 gem 'sqlite3', '~> 2.2'
 
 # Use the Puma web server [https://github.com/puma/puma]
@@ -66,6 +63,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
 end
+
+gem "propshaft", "~> 1.1"
 
 gem 'dotenv-rails', groups: %i[development test]
 
