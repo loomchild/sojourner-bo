@@ -36,7 +36,11 @@ class ConferencesController < ApplicationController
     @events = @conference.events.popular.includes(:speakers).page(params[:page]).per(10)
 
     @query = params[:query]
-    @events = @events.where('content_searchable @@ websearch_to_tsquery(?)', @query) if @query.present?
+
+    keywords = @query&.downcase&.split
+    keywords&.each do |keyword|
+      @events = @events.where('content LIKE ?', "%#{keyword}%")
+    end
   end
 
   def tracks
@@ -92,9 +96,10 @@ class ConferencesController < ApplicationController
   def user_timeline_data
     start_ts, end_ts = timeline_interval
 
-    data = @conference.conference_users.active.where(created_at: start_ts..end_ts).group("DATE(conference_users.created_at AT TIME ZONE 'CET')").count
+    data = @conference.conference_users.active.where(created_at: start_ts..end_ts).group("DATE(conference_users.created_at, 'localtime')").count
 
     start_ts.to_date.upto(end_ts.to_date) do |date|
+      date = date.iso8601
       data[date] = data[date] || 0
     end
 
@@ -108,9 +113,10 @@ class ConferencesController < ApplicationController
       .joins(:conference_user)
       .merge(ConferenceUser.active)
       .where(created_at: start_ts..end_ts)
-      .group("DATE(favourites.created_at AT TIME ZONE 'CET')").count
+      .group("DATE(favourites.created_at, 'localtime')").count
 
     start_ts.to_date.upto(end_ts.to_date) do |date|
+      date = date.iso8601
       data[date] = data[date] || 0
     end
 

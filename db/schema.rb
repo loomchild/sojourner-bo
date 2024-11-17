@@ -10,10 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_10_163366) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
-
+ActiveRecord::Schema[8.0].define(version: 2024_02_15_165405) do
   create_table "conference_users", force: :cascade do |t|
     t.string "conference_id", null: false
     t.string "user_id", null: false
@@ -34,33 +31,31 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_10_163366) do
 
   create_table "event_speakers", force: :cascade do |t|
     t.string "event_id", null: false
-    t.bigint "speaker_id", null: false
+    t.integer "speaker_id", null: false
     t.index ["event_id"], name: "index_event_speakers_on_event_id"
     t.index ["speaker_id"], name: "index_event_speakers_on_speaker_id"
   end
 
   create_table "events", id: :string, force: :cascade do |t|
     t.string "conference_id", null: false
-    t.bigint "track_id", null: false
+    t.integer "track_id", null: false
     t.string "title"
     t.string "abstract"
     t.string "description"
     t.string "type_id"
     t.string "subtitle"
-    t.virtual "content", type: :string, as: "(((((((COALESCE(title, ''::character varying))::text || ' '::text) || (COALESCE(subtitle, ''::character varying))::text) || ' '::text) || (COALESCE(abstract, ''::character varying))::text) || ' '::text) || (COALESCE(description, ''::character varying))::text)", stored: true
-    t.bigint "favourites_count", default: 0, null: false
     t.string "speaker_names"
-    t.virtual "content_searchable", type: :tsvector, as: "to_tsvector('english'::regconfig, (((((((((COALESCE(title, ''::character varying))::text || ' '::text) || (COALESCE(subtitle, ''::character varying))::text) || ' '::text) || (COALESCE(abstract, ''::character varying))::text) || ' '::text) || (COALESCE(description, ''::character varying))::text) || ' '::text) || (COALESCE(speaker_names, ''::character varying))::text))", stored: true
+    t.virtual "content", type: :string, as: "lower(coalesce(title,'') || ' ' || coalesce(subtitle, '') || ' ' || coalesce(abstract, '') || ' ' || coalesce(description, '') || ' ' || coalesce(speaker_names, ''))", stored: true
+    t.bigint "favourites_count", default: 0, null: false
     t.date "date"
-    t.jsonb "meta", default: {}, null: false
+    t.json "meta", default: {}, null: false
     t.index ["conference_id"], name: "index_events_on_conference_id"
-    t.index ["content_searchable"], name: "events_content_searchable_idx", using: :gin
     t.index ["track_id"], name: "index_events_on_track_id"
   end
 
   create_table "favourites", force: :cascade do |t|
     t.string "conference_id", null: false
-    t.bigint "conference_user_id", null: false
+    t.integer "conference_user_id", null: false
     t.string "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
