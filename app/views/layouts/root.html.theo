@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <div>
       <div class="flex items-baseline space-x-2 md:space-x-4">
-        <%= navbar_link "Go to Sojourner", 'https://sojourner.rocks' %>
+        <_navbar-link label="Go to Sojourner" url="https://sojourner.rocks" />
       </div>
     </div>
   </div>
