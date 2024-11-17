@@ -7,7 +7,9 @@
         <h2 class="text-xl font-medium text-center mb-4">Conferences</h2>
         <div class="flex flex-row flex-wrap justify-center gap-x-6">
           <% @conferences.each do |conference| %>
-            <%= link_to conference.name, conference, class: "rounded-md px-1 md:px-3 py-1 md:py-2 text-sm font-medium text-gray-700 hover:bg-gray-300 hover:text-black" %>
+            <a href%="conference_path(conference)" class="rounded-md px-1 md:px-3 py-1 md:py-2 text-sm font-medium text-gray-700 hover:bg-gray-300 hover:text-black">
+              <%= conference.name %>
+            </a>
           <% end %>
         </div>
       </div>
