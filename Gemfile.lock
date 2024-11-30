@@ -91,8 +91,6 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
-    dockerfile-rails (1.6.24)
-      rails (>= 3.0.0)
     dotenv (3.1.4)
     dotenv-rails (3.1.4)
       dotenv (= 3.1.4)
@@ -315,7 +313,6 @@ DEPENDENCIES
   bootsnap
   chartkick (~> 5.0)
   debug
-  dockerfile-rails (>= 1.5)
   dotenv-rails
   faraday (~> 2.7)
   heroicon (~> 1.0)
