@@ -92,3 +92,5 @@ gem "theo-rails", "~> 0.4.6"
 gem "kamal", "~> 2.3"
 
 gem "thruster", "~> 0.1.9"
+
+gem "nokogiri", "~> 1.16"

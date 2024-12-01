@@ -320,6 +320,7 @@ DEPENDENCIES
   jbuilder
   kamal (~> 2.3)
   kaminari
+  nokogiri (~> 1.16)
   propshaft (~> 1.1)
   puma (~> 6.0)
   rails (~> 8.0.0)
