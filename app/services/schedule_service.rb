@@ -12,6 +12,10 @@ class ScheduleService
   end
 
   def schedule
+    return @schedule if defined?(@schedule)
+
+    @schedule = nil
+
     headers = {}
     last_modified = Rails.cache.read('schedule-last-modified')
     headers["If-Modified-Since"] = last_modified if last_modified.present?
@@ -31,7 +35,7 @@ class ScheduleService
 
     xml = response.body
 
-    @schedule ||= Nokogiri::XML(xml)
+    @schedule = Nokogiri::XML(xml)
   end
 
   def types
@@ -134,6 +138,8 @@ class ScheduleService
   end
 
   def store
+    return if schedule.nil?
+
     data = {
       events:,
       types:
