@@ -12,11 +12,24 @@ class ScheduleService
   end
 
   def schedule
-    faraday = Faraday.new do |faraday|
+    headers = {}
+    last_modified = Rails.cache.read('schedule-last-modified')
+    headers["If-Modified-Since"] = last_modified if last_modified.present?
+
+    faraday = Faraday.new(headers:) do |faraday|
       faraday.use Faraday::FollowRedirects::Middleware
     end
 
-    xml = faraday.get("https://fosdem.org/#{conference.year}/schedule/xml").body
+    response = faraday.get("https://fosdem.org/#{conference.year}/schedule/xml")
+
+    if response.status == 304
+      Rails.logger.info 'Schedule not modified, skipping'
+      return
+    end
+
+    Rails.cache.write('schedule-last-modified', response.headers['last-modified'])
+
+    xml = response.body
 
     @schedule ||= Nokogiri::XML(xml)
   end
