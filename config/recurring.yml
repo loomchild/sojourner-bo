@@ -1,7 +1,7 @@
 production:
   schedule:
     class: ScheduleJob
-    schedule: every 1 minutes
+    schedule: every 3 hours
 
   update_last:
     class: UpdateLastJob
