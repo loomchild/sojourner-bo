@@ -31,6 +31,7 @@ class ScheduleService
       return
     end
 
+    Rails.logger.info 'Updating schedule'
     Rails.cache.write('schedule-last-modified', response.headers['last-modified'])
 
     xml = response.body
@@ -145,8 +146,20 @@ class ScheduleService
       types:
     }.deep_transform_keys { |key| key.to_s.camelize(:lower) }
 
-    File.open("#{Rails.root}/public/conferences/#{conference.id}.json", 'w') do |file|
-      file.write(JSON.pretty_generate(data))
+    data = JSON.pretty_generate(data)
+
+    filename = "#{Rails.root}/public/conferences/#{conference.id}.json"
+
+    old_hash = Digest::MD5.file(filename).hexdigest
+    new_hash = Digest::MD5.hexdigest(data)
+
+    if old_hash == new_hash
+      Rails.logger.info "Schedule content not modified, skipping"
+      return
+    end
+
+    File.open(filename, 'w') do |file|
+      file.write(data)
     end
   end
 end
