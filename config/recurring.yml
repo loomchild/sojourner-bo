@@ -1,4 +1,8 @@
 production:
+  schedule:
+    class: ScheduleJob
+    schedule: every 2 minutes
+
   update_last:
     class: UpdateLastJob
     schedule: every day at 6

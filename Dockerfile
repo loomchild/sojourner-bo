@@ -72,3 +72,4 @@ EXPOSE 80
 CMD ["./bin/thrust", "./bin/rails", "server"]
 
 VOLUME "/rails/storage"
+VOLUME "/rails/public/conferences"
