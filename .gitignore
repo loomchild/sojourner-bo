@@ -38,3 +38,6 @@
 !/app/assets/builds/.keep
 
 .env
+
+/public/conferences/*
+!/public/conferences/.keep

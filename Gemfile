@@ -94,3 +94,5 @@ gem "kamal", "~> 2.3"
 gem "thruster", "~> 0.1.9"
 
 gem "nokogiri", "~> 1.16"
+
+gem "faraday-follow_redirects", "~> 0.3.0"

@@ -11,8 +11,13 @@ class Conference < ApplicationRecord
   has_many :speakers, dependent: :destroy
 
   scope :by_latest, -> { order(name: :desc) }
+  scope :latest, -> { by_latest.first }
 
   def self.root
-    by_latest.first
+    latest
+  end
+
+  def year
+    start_date.year
   end
 end
