@@ -76,6 +76,8 @@ class ConferencesController < ApplicationController
 
   def registered_user_data
     active_user_count = @conference.users.active.count
+    return {} unless active_user_count.positive?
+
     registered_user_count = @conference.users.active.registered.count
     registered_percent = (100.0 * registered_user_count / active_user_count).round(1)
 
@@ -128,7 +130,7 @@ class ConferencesController < ApplicationController
     data = @conference.users.active.group(:favourites_count).count
     return {} if data.blank?
 
-    max = (data.keys.max / 10.0).ceil * 10
+    max = ceil_max(data.keys.max, 10)
     data.keys.min.upto(max) { |k| data[k] = 0 if data[k].nil? }
     data
   end
@@ -144,7 +146,7 @@ class ConferencesController < ApplicationController
     data = Hash.new(0)
     user_tracks.each_value { |count| data[count] += 1 }
 
-    max = (data.keys.max / 5.0).ceil * 5
+    max = ceil_max(data.keys.max, 5)
     max.times { |k| data[k] = 0 if data[k].zero? }
 
     data
@@ -152,8 +154,14 @@ class ConferencesController < ApplicationController
 
   def events_histogram_data
     data = @conference.events.group(:favourites_count).count
-    max = (data.keys.max / 10.0).ceil * 10
+    max = ceil_max(data.keys.max, 10)
     max.times { |k| data[k] = 0 if data[k].nil? }
     data
+  end
+
+  def ceil_max(value, interval)
+    return 0 if value.nil?
+
+    (value / interval.to_f).ceil * interval
   end
 end
