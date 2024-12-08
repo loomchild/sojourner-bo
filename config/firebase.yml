@@ -1,3 +1,2 @@
 shared:
-  storage: https://storage.googleapis.com/sojourer-web.appspot.com
   functions: https://us-central1-sojourer-web.cloudfunctions.net

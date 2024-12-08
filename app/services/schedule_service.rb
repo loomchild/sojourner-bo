@@ -5,10 +5,18 @@ class ScheduleService
     store
   end
 
+  def get_schedule(conference_id)
+    JSON.parse(File.read("#{Rails.root}/public/conferences/#{conference_id}.json"))
+  end
+
   private
 
   def conference
     @conference ||= Conference.latest
+  end
+
+  def cache_key
+    "schedule-last-modified-#{conference.year}"
   end
 
   def schedule
@@ -16,8 +24,9 @@ class ScheduleService
 
     @schedule = nil
 
+    last_modified = Rails.cache.read(cache_key)
+
     headers = {}
-    last_modified = Rails.cache.read('schedule-last-modified')
     headers["If-Modified-Since"] = last_modified if last_modified.present?
 
     faraday = Faraday.new(headers:) do |faraday|
@@ -26,13 +35,15 @@ class ScheduleService
 
     response = faraday.get("https://fosdem.org/#{conference.year}/schedule/xml")
 
+    p response
+
     if response.status == 304
       Rails.logger.info 'Schedule not modified, skipping'
       return
     end
 
     Rails.logger.info 'Updating schedule'
-    Rails.cache.write('schedule-last-modified', response.headers['last-modified'])
+    Rails.cache.write(cache_key, response.headers['last-modified'])
 
     xml = response.body
 
@@ -150,7 +161,7 @@ class ScheduleService
 
     filename = "#{Rails.root}/public/conferences/#{conference.id}.json"
 
-    old_hash = Digest::MD5.file(filename).hexdigest
+    old_hash = Digest::MD5.file(filename).hexdigest if File.exist?(filename)
     new_hash = Digest::MD5.hexdigest(data)
 
     if old_hash == new_hash

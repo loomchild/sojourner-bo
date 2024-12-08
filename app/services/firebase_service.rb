@@ -1,10 +1,6 @@
 require 'faraday'
 
 class FirebaseService
-  def conference(conference_id)
-    storage_conn.get("conferences/#{conference_id}.json").body
-  end
-
   def users
     functions_conn
       .get("adminUsers")
@@ -22,13 +18,6 @@ class FirebaseService
   end
 
   private
-
-  def storage_conn
-    @storage_conn ||= Faraday.new(url: Rails.application.config.firebase.storage) do |conn|
-      conn.response :json, parser_options: { symbolize_names: true }
-      conn.use Faraday::Response::RaiseError
-    end
-  end
 
   def functions_conn
     @functions_conn ||= Faraday.new(

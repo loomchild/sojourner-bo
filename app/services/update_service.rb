@@ -83,12 +83,13 @@ class UpdateService
     update_conference('fosdem-2022', 'FOSDEM 2022', '2022-02-05', '2022-02-06')
     update_conference('fosdem-2023', 'FOSDEM 2023', '2023-02-04', '2023-02-05')
     update_conference('fosdem-2024', 'FOSDEM 2024', '2024-02-03', '2024-02-04')
+    update_conference('fosdem-2025', 'FOSDEM 2025', '2025-02-01', '2025-02-02')
   end
 
   def update_last
     update_users
 
-    update_conference('fosdem-2024', 'FOSDEM 2024', '2024-02-03', '2024-02-04')
+    update_conference_data(Conferenct.latest)
   end
 
   def reset_conference(id, name, start_date, end_date)
@@ -101,15 +102,19 @@ class UpdateService
   end
 
   def update_conference(id, name, start_date, end_date)
-    data = FirebaseService.new.conference(id)
-
-    conference = Conference.create_or_find_by(id: id)
+    conference = Conference.create_or_find_by(id:)
     conference.update!(name:, start_date:, end_date:)
     conference.touch
 
-    delete_other_events(conference, data[:events].map { |event| event[:id] })
+    update_conference_data(conference)
+  end
 
-    data[:events].each do |event|
+  def update_conference_data(conference)
+    schedule = ScheduleService.new.get_schedule(conference_id)
+
+    delete_other_events(conference, schedule[:events].map { |event| event[:id] })
+
+    schedule[:events].each do |event|
       load_event(conference, event)
     end
 
