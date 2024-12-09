@@ -6,7 +6,7 @@ class ScheduleService
   end
 
   def get_schedule(conference_id)
-    JSON.parse(File.read("#{Rails.root}/public/conferences/#{conference_id}.json"))
+    JSON.parse(File.read("#{Rails.root}/public/conferences/#{conference_id}.json"), symbolize_names: true)
   end
 
   private
@@ -34,8 +34,6 @@ class ScheduleService
     end
 
     response = faraday.get("https://fosdem.org/#{conference.year}/schedule/xml")
-
-    p response
 
     if response.status == 304
       Rails.logger.info 'Schedule not modified, skipping'
@@ -95,8 +93,8 @@ class ScheduleService
     chat = nil
 
     {
-      id: event[:id],
-      guid: event[:guid],
+      id: event[:guid],
+      legacy_id: event[:id],
       date: day[:date],
       room: room[:name],
       start_time: event.at_xpath('start').content,

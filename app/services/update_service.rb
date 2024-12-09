@@ -89,7 +89,7 @@ class UpdateService
   def update_last
     update_users
 
-    update_conference_data(Conferenct.latest)
+    update_conference_data(Conference.latest)
   end
 
   def reset_conference(id, name, start_date, end_date)
@@ -110,7 +110,7 @@ class UpdateService
   end
 
   def update_conference_data(conference)
-    schedule = ScheduleService.new.get_schedule(conference_id)
+    schedule = ScheduleService.new.get_schedule(conference.id)
 
     delete_other_events(conference, schedule[:events].map { |event| event[:id] })
 
@@ -118,7 +118,7 @@ class UpdateService
       load_event(conference, event)
     end
 
-    favourites = FirebaseService.new.favourites(id)
+    favourites = FirebaseService.new.favourites(conference.id)
 
     missing_events = Set.new
     favourites.each do |event_id, value|
