@@ -120,6 +120,8 @@ class UpdateService
 
     favourites = FirebaseService.new.favourites(conference.id)
 
+    conference.favourites.destroy_all
+
     missing_events = Set.new
     favourites.each do |event_id, value|
       create_conference_user_with_favourites(conference, event_id, value[:favourites], missing_events)
