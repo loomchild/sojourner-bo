@@ -13,7 +13,7 @@ class FirebaseService
     functions_conn
       .get("adminFavourites", conference: conference_id)
       .body
-      .deep_transform_keys(&:underscore)
+      .deep_transform_keys { |key| key.include?('-') ? key : key.underscore }
       .deep_symbolize_keys
   end
 
