@@ -104,7 +104,6 @@ class UpdateService
   def update_conference(id, name, start_date, end_date)
     conference = Conference.create_or_find_by(id:)
     conference.update!(name:, start_date:, end_date:)
-    conference.touch
 
     update_conference_data(conference)
   end
@@ -126,6 +125,8 @@ class UpdateService
     favourites.each do |event_id, value|
       create_conference_user_with_favourites(conference, event_id, value[:favourites], missing_events)
     end
+
+    conference.touch
   end
 
   def reset_users
