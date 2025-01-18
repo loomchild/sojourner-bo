@@ -3,7 +3,7 @@
     <div class="min-w-0 flex-auto">
       <p class="text-md font-semibold leading-6 text-gray-900">
         <%= event.title %>
-        <span class="text-gray-500">[<%= event.id %>]</span>
+        <span class="hidden md:inline text-gray-500">[<%= event.id %>]</span>
       </p>
       <p class="mt-1 text-sm leading-5 text-gray-500">
         <span class="font-semibold">
