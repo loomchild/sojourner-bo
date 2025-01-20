@@ -5,7 +5,7 @@ production:
 
   update_last:
     class: UpdateLastJob
-    schedule: every day at 6:30
+    schedule: '30 6-23 * * *'
 
 #  update_all:
 #    class: UpdateAllJob
