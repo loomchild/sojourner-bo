@@ -83,6 +83,7 @@ class ScheduleService
 
     track = event.at_xpath('track').content
     track = track[..-9] if track.end_with?('devroom')
+    track = 'Keynote' if track == 'Main Track'
 
     type = event_type(event)
 

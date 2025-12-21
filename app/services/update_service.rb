@@ -84,6 +84,7 @@ class UpdateService
     update_conference('fosdem-2023', 'FOSDEM 2023', '2023-02-04', '2023-02-05')
     update_conference('fosdem-2024', 'FOSDEM 2024', '2024-02-03', '2024-02-04')
     update_conference('fosdem-2025', 'FOSDEM 2025', '2025-02-01', '2025-02-02')
+    update_conference('fosdem-2026', 'FOSDEM 2026', '2026-01-31', '2026-02-01')
   end
 
   def update_last
