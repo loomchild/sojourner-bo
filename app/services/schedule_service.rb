@@ -49,7 +49,7 @@ class ScheduleService
   end
 
   def types
-    EventType.all.map do |event_type|
+    EventType.except_maintrack.map do |event_type|
       {
         id: event_type.id,
         name: event_type.plural_name,
@@ -83,9 +83,13 @@ class ScheduleService
 
     track = event.at_xpath('track').content
     track = track[..-9] if track.end_with?('devroom')
-    track = 'Keynote' if track == 'Main Track'
 
     type = event_type(event)
+
+    if track == 'Main Track'
+      track = 'Keynote'
+      type = 'keynote'
+    end
 
     persons = event_persons(event)
 

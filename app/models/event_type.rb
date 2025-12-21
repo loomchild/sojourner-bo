@@ -10,4 +10,6 @@ class EventType < ActiveHash::Base
     { id: 'lightningtalk', name: 'Lightning Talk', plural_name: 'Lightning talks', stat_name: 'talks' },
     { id: 'other', name: 'Other', plural_name: 'Other events', stat_name: 'events' }
   ]
+
+  scope :except_maintrack, -> { where.not(id: 'maintrack') }
 end
