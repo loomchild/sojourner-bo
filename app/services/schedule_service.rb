@@ -87,7 +87,7 @@ class ScheduleService
     type = event_type(event)
 
     if track == 'Main Track'
-      track = 'Keynote'
+      track = 'Keynotes'
       type = 'keynote'
     end
 
