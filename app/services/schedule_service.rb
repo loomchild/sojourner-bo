@@ -49,7 +49,7 @@ class ScheduleService
   end
 
   def types
-    EventType.except_maintrack.map do |event_type|
+    EventType.except_keynotes.map do |event_type|
       {
         id: event_type.id,
         name: event_type.plural_name,
@@ -86,9 +86,9 @@ class ScheduleService
 
     type = event_type(event)
 
-    if track == 'Main Track'
-      track = 'Keynotes'
-      type = 'keynote'
+    if track == 'Keynote'
+      track = 'Main Track'
+      type = 'maintrack'
     end
 
     persons = event_persons(event)

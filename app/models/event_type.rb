@@ -5,11 +5,11 @@ class EventType < ActiveHash::Base
 
   self.data = [
     { id: 'keynote', name: 'Keynote', plural_name: 'Keynotes', stat_name: 'lectures' },
-    { id: 'maintrack', name: 'Main track', plural_name: 'Main tracks', stat_name: 'tracks' },
+    { id: 'maintrack', name: 'Main track', plural_name: 'Main track', stat_name: 'lectures' },
     { id: 'devroom', name: 'Developer room', plural_name: 'Developer rooms', stat_name: 'rooms' },
     { id: 'lightningtalk', name: 'Lightning Talk', plural_name: 'Lightning talks', stat_name: 'talks' },
     { id: 'other', name: 'Other', plural_name: 'Other events', stat_name: 'events' }
   ]
 
-  scope :except_maintrack, -> { where.not(id: 'maintrack') }
+  scope :except_keynotes, -> { where.not(id: 'keynote') }
 end
