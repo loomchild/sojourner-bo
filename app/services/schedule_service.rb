@@ -1,7 +1,9 @@
 class ScheduleService
-  attr_reader :schedule
+  attr_reader :force
 
-  def fetch_schedule
+  def fetch_schedule(force: false)
+    @force = force
+
     store
   end
 
@@ -27,7 +29,7 @@ class ScheduleService
     last_modified = Rails.cache.read(cache_key)
 
     headers = {}
-    headers["If-Modified-Since"] = last_modified if last_modified.present?
+    headers["If-Modified-Since"] = last_modified if last_modified.present? && !force
 
     faraday = Faraday.new(headers:) do |faraday|
       faraday.use Faraday::FollowRedirects::Middleware
@@ -58,8 +60,26 @@ class ScheduleService
     end
   end
 
+  def persons
+    return @persons if defined?(@persons)
+    @persons = []
+
+    schedule.xpath('/schedule/persons/person').each do |person|
+      @persons.push({
+        id: person[:id],
+        name: person.at_xpath('name').content,
+        bio: person.at_xpath('biography').content
+      })
+    end
+
+    @persons.compact!
+    @persons.sort_by { |person| person[:id] }
+
+    @persons
+  end
+
   def events
-    return @event if defined?(@events)
+    return @events if defined?(@events)
     @events = []
 
     schedule.xpath('//day').each do |day|
@@ -124,7 +144,7 @@ class ScheduleService
   end
 
   def event_persons(event)
-    event.xpath('persons/person').map { |person| person.content }
+    event.xpath('persons/person').map { |person| { id: person[:id], name: person.content } }
   end
 
   def event_links(event)
@@ -157,7 +177,8 @@ class ScheduleService
 
     data = {
       events:,
-      types:
+      types:,
+      persons:
     }.deep_transform_keys { |key| key.to_s.camelize(:lower) }
 
     data = JSON.pretty_generate(data)
@@ -167,7 +188,7 @@ class ScheduleService
     old_hash = Digest::MD5.file(filename).hexdigest if File.exist?(filename)
     new_hash = Digest::MD5.hexdigest(data)
 
-    if old_hash == new_hash
+    if old_hash == new_hash && !force
       Rails.logger.info "Schedule content not modified, skipping"
       return
     end
