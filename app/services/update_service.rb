@@ -4,7 +4,8 @@ def load_track(conference, track_name)
 end
 
 def load_speaker(conference, speaker_name)
-  conference.speakers.find_or_create_by!(name: speaker_name)
+  name = speaker_name.is_a?(Hash) ? speaker_name[:name] : speaker_name
+  conference.speakers.find_or_create_by!(name:)
 end
 
 def delete_other_events(conference, event_ids)
