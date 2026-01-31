@@ -14,4 +14,8 @@ class Event < ApplicationRecord
   def update_speaker_names
     self.speaker_names = speakers.map(&:name).join(' ')
   end
+
+  def day
+    date.strftime("%A")
+  end
 end
