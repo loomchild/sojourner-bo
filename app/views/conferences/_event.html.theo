@@ -3,7 +3,7 @@
     <div class="min-w-0 flex-auto">
       <p class="text-md font-semibold leading-6 text-gray-900">
         <%= event.title %>
-        <span class="hidden md:inline text-gray-500">
+        <span class="text-gray-500">
           [<%= event.day %>, <%= event.id %>]
         </span>
       </p>
